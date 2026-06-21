@@ -11,11 +11,10 @@
   {
     "id": 1782014158431,
     "subj": "VPNTrinhHg - Thông báo hệ thống đã hoàn thành bảo trì",
-    "head": "Hoàn Thành Bảo Trì 🎉",
+    "head": "Hoàn Thành Bảo Trì",
     "color": "linear-gradient(135deg, #2563eb, #3b82f6)",
     "raw": "Xin chào quý khách hàng!\n\nVào lúc 8:00 sáng nay theo giờ Trung Quốc và 7:00 theo giờ Việt Nam hệ thống của chúng tôi đã hoàn thành đợt bảo trì. \n\nxin trân trọng cảm ơn bạn đã thông cảm cho chúng tôi khi dịch vụ VPN bị gián đoạn trong thời gian bảo trì.\n\n\ncác khách hàng vẫn còn bị lỗi chưa kết nối được với VPN thì hãy thực hiện theo các bước sau để tiếp tục sử dụng dịch vụ:\n\nBước 1: Xóa cấu hình cũ khỏi app\nBước 2: Thoát khỏi app và xóa đa nhiệm app đi\nBước 3: Copy lại link VPN admin đã gửi bạn trong tin nhắn trao đổi riêng và thêm lại vào app\nBước 4: Bật VPN lên và vào thử các web app để kiểm tra\n\nNếu đã làm theo các bước trên mà vẫn không kết nối được với VPN thì vui lòng hãy nhắn tin liên hệ với admin qua Zalo hoặc Messenger với 2 nút hỗ trợ bên dưới.",
     "useContact": true,
-    "usePortal": false,
-    "date": "21/6/2026"
+    "usePortal": false
   }
 ]
