@@ -1,5 +1,12 @@
 [
   {
+    "type": "Thông Báo Hệ Thống Đã Hoàn Tất Bảo Trì",
+    "email": "doicucden@gmail.com",
+    "order": "Khách lẻ",
+    "nick": "Bạn",
+    "time": "20:14:33 21/6/2026"
+  },
+  {
     "type": "Thông báo hệ thống đã hoàn thành bảo trì",
     "email": "doicucden@gmail.com",
     "order": "Khách lẻ",
