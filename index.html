@@ -8,19 +8,17 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; background: #f1f5f9; color: #0f172a; margin: 0; }
+    body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; background: #f1f5f9; color: #0f172a; margin: 0; overflow-x: hidden; }
     
-    /* TOAST DI CHUYỂN LÊN GÓC TRÁI */
-    .toast { position: fixed; top: 1rem; left: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; pointer-events: none; }
-    .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.2); transform: translateX(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    /* TOAST GÓC TRÁI */
+    .toast { position: fixed; top: 4rem; left: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; pointer-events: none; }
+    .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.2); transform: translateX(-120%); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .toast-item.show { transform: translateX(0); }
 
-    /* MÀU HEADER */
     .color-swatch { display: none; }
     .color-swatch + label { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; }
     .color-swatch:checked + label { border-color: #0f172a; transform: scale(1.2); }
     
-    /* TOGGLE */
     .toggle-wrap { position: relative; width: 40px; height: 22px; display: inline-block; }
     .toggle-wrap input { opacity: 0; width: 0; height: 0; }
     .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #cbd5e1; border-radius: 22px; transition: 0.3s; }
@@ -28,65 +26,77 @@
     input:checked + .toggle-slider { background: #4f46e5; }
     input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-    /* MOCKUP ĐIỆN THOẠI & ẨN SCROLLBAR */
+    /* MOCKUP & SCROLL HIDDEN */
     .phone-shell { background: #1e293b; border-radius: 2.5rem; padding: 10px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3); width: 100%; max-width: 320px; height: 600px; margin: 0 auto; }
     .phone-screen { background: #f8fafc; border-radius: 1.75rem; overflow-x: hidden; overflow-y: auto; height: 100%; display: flex; flex-direction: column; -ms-overflow-style: none; scrollbar-width: none; }
     .phone-screen::-webkit-scrollbar { display: none; }
 
-    /* MENU TAB GỌN GÀNG */
+    .mail-header-text { font-size: 1rem; text-transform: uppercase; font-weight: 900; line-height: 1.3; padding: 0; margin: 0; color: white; word-wrap: break-word; }
+
     .tab-btn { padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #64748b; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
     .tab-btn.active { background: #4f46e5; color: white; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
 
-    /* SCALE & HIỆU ỨNG CHỌN MẪU MAIL */
-    .mini-preview-wrap { width: 100%; height: 200px; overflow: hidden; position: relative; background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 1rem 1rem 0 0; }
-    .mini-preview-scale { transform: scale(0.65); transform-origin: top center; width: 150%; margin-left: -25%; pointer-events: none; }
-    
-    .tpl-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-    .tpl-selected { transform: scale(1.05); border-color: #4f46e5 !important; box-shadow: 0 15px 30px rgba(79,70,229,0.25); z-index: 10; border-width: 2px; }
-    .tpl-dimmed { transform: scale(0.95); opacity: 0.5; filter: grayscale(50%); }
+    /* SUB-TAB */
+    .sub-tab-btn { padding: 4px 14px; font-size: 12px; font-weight: 800; border-radius: 6px; cursor: pointer; color: #64748b; transition: 0.2s; }
+    .sub-tab-btn.active { background: #fff; color: #4f46e5; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-    /* LOG TABLE */
-    .log-table th { background: #f1f5f9; padding: 10px; text-align: left; font-size: 12px; color: #475569; }
-    .log-table td { padding: 10px; border-bottom: 1px solid #f1f5f9; font-size: 12px; color: #334155; }
+    /* THUMBNAIL CHO MẪU LƯU (Cuộn được trong khung mini) */
+    .tpl-card { transition: all 0.2s; }
+    .tpl-selected { transform: translateY(-4px); border-color: #4f46e5 !important; box-shadow: 0 12px 24px rgba(79,70,229,0.25); border-width: 2px; }
+    .tpl-dimmed { opacity: 0.6; filter: grayscale(30%); }
+    .mini-phone-shell { background: #1e293b; border-radius: 1.2rem; padding: 6px; width: 100%; height: 260px; }
+    .mini-phone-screen { background: #f8fafc; border-radius: 0.8rem; overflow-y: auto; height: 100%; -ms-overflow-style: none; scrollbar-width: none; font-size: 8px; }
+    .mini-phone-screen::-webkit-scrollbar { display: none; }
+    .mini-phone-screen img { max-width: 100%; height: auto; }
+
+    /* TERMINAL LOG WORKFLOW */
+    .terminal-log { background: #0f172a; color: #4ade80; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 8px; height: 120px; overflow-y: auto; }
+    
+    /* BẢNG KHÁCH HÀNG */
+    .table-container { overflow-x: auto; }
+    table { width: 100%; text-align: left; border-collapse: collapse; font-size: 12px; }
+    th { background: #f1f5f9; padding: 10px; color: #475569; font-weight: 800; position: sticky; top: 0; z-index: 10; }
+    td { padding: 10px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    tr:hover td { background: #f8fafc; }
   </style>
 </head>
 <body class="pb-10">
   <div id="toastBox" class="toast"></div>
 
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-    <div class="w-full px-2 py-1.5 flex flex-wrap justify-between items-center gap-2">
-      <h1 class="text-base font-extrabold text-indigo-600 shrink-0"><i class="fas fa-paper-plane mr-1.5 text-pink-500"></i>PromoMailer</h1>
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm w-full">
+    <div class="px-3 py-2 flex flex-wrap justify-between items-center gap-2">
+      <h1 class="text-base md:text-lg font-extrabold text-indigo-600 shrink-0"><i class="fas fa-paper-plane mr-1.5 text-pink-500"></i>PromoMailer</h1>
       <div class="flex flex-wrap bg-slate-100 p-1 rounded-xl shrink-0 gap-0.5">
         <button onclick="goTab('compose')" id="btn-compose" class="tab-btn active"><i class="fas fa-pen-nib md:mr-1.5"></i><span class="hidden md:inline">Soạn Mail</span></button>
-        <button onclick="goTab('send')" id="btn-send" class="tab-btn"><i class="fas fa-rocket md:mr-1.5"></i><span class="hidden md:inline">Mẫu & Gửi</span></button>
+        <button onclick="goTab('campaigns')" id="btn-campaigns" class="tab-btn"><i class="fas fa-rocket md:mr-1.5"></i><span class="hidden md:inline">Chiến Dịch</span></button>
         <button onclick="goTab('targets')" id="btn-targets" class="tab-btn"><i class="fas fa-user-plus md:mr-1.5"></i><span class="hidden md:inline">Khách Hàng</span></button>
         <button onclick="goTab('logs')" id="btn-logs" class="tab-btn"><i class="fas fa-history md:mr-1.5"></i><span class="hidden md:inline">Nhật Ký</span></button>
       </div>
     </div>
   </header>
 
-  <main class="w-full px-2 mt-3">
+  <main class="w-full px-2 md:px-4 mt-3">
     
-    <div id="tab-compose" class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-      <div class="lg:col-span-8 space-y-4">
+    <div id="tab-compose" class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+      <div class="xl:col-span-8">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-          <div class="flex justify-between items-center mb-3">
+          <div class="flex justify-between items-center mb-4">
             <h2 class="font-black text-slate-800 text-sm uppercase"><i class="fas fa-pen-nib mr-1.5 text-indigo-500"></i>Công Cụ Soạn</h2>
             <div id="editActions" class="hidden flex gap-2">
-              <button onclick="cancelEdit()" class="bg-slate-100 text-slate-600 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-slate-200">Hủy</button>
-              <button onclick="saveTemplate()" class="bg-emerald-50 text-emerald-600 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-emerald-600 hover:text-white transition">Cập Nhật Mẫu</button>
+              <button onclick="cancelEdit()" class="bg-slate-100 text-slate-600 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-slate-200 transition shadow-sm">Hủy Sửa</button>
+              <button onclick="saveTemplate()" class="bg-emerald-50 border border-emerald-200 text-emerald-600 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-emerald-600 hover:text-white transition shadow-sm">Cập Nhật Mẫu</button>
             </div>
-            <button id="btnSaveNew" onclick="saveTemplate()" class="bg-indigo-50 text-indigo-700 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-indigo-600 hover:text-white transition"><i class="fas fa-save mr-1"></i>Lưu Mẫu Mới</button>
+            <button id="btnSaveNew" onclick="saveTemplate()" class="bg-indigo-50 border border-indigo-200 text-indigo-700 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-indigo-600 hover:text-white transition shadow-sm"><i class="fas fa-save mr-1"></i>Lưu Mẫu Mới</button>
           </div>
           
-          <div class="space-y-3 mb-3">
-            <input type="text" id="mailSubj" placeholder="Tiêu đề Email (Vd: VPNTrinhHg - Thông Báo Bảo Trì)..." class="w-full p-2.5 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 focus:border-indigo-500 outline-none" onkeyup="updatePreview()">
-            <input type="text" id="mailHead" placeholder="Chữ Header (Căn giữa, 1 dòng)..." class="w-full p-2.5 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 focus:border-indigo-500 outline-none" onkeyup="updatePreview()">
+          <div class="space-y-3 mb-4">
+            <input type="text" id="mailSubj" placeholder="Tiêu đề Email (Vd: VPNTrinhHg - Thông Báo Bảo Trì)..." class="w-full p-3 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 focus:border-indigo-500 outline-none" onkeyup="updatePreview()">
+            <input type="text" id="mailHead" placeholder="Chữ Header (Căn giữa, 1 dòng)..." class="w-full p-3 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 focus:border-indigo-500 outline-none" onkeyup="updatePreview()">
           </div>
 
-          <div class="mb-3 flex items-center gap-2">
+          <div class="mb-4 flex items-center gap-2">
             <span class="text-[10px] font-bold text-slate-400 uppercase">Màu:</span>
-            <div class="flex gap-1.5 flex-wrap">
+            <div class="flex gap-2 flex-wrap">
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #2563eb, #3b82f6)" id="cBlue" class="color-swatch" checked onchange="updatePreview()"><label for="cBlue" style="background:linear-gradient(135deg, #2563eb, #3b82f6)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #16a34a, #22c55e)" id="cGreen" class="color-swatch" onchange="updatePreview()"><label for="cGreen" style="background:linear-gradient(135deg, #16a34a, #22c55e)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #dc2626, #ef4444)" id="cRed" class="color-swatch" onchange="updatePreview()"><label for="cRed" style="background:linear-gradient(135deg, #dc2626, #ef4444)"></label>
@@ -97,21 +107,21 @@
           </div>
           
           <div class="border border-slate-200 rounded-xl overflow-hidden">
-            <div class="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap gap-1.5 items-center">
-              <button onclick="insText('[B]In_đậm[/B]')" class="px-3 py-2 bg-white border rounded text-xs font-bold hover:bg-slate-100 shadow-sm">B</button>
-              <button onclick="insText('[I]In_nghiêng[/I]')" class="px-3 py-2 bg-white border rounded text-xs italic hover:bg-slate-100 shadow-sm">I</button>
+            <div class="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap gap-2 items-center">
+              <button onclick="insText('[B]In_đậm[/B]')" class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs font-bold hover:bg-slate-100 shadow-sm">B</button>
+              <button onclick="insText('[I]In_nghiêng[/I]')" class="px-3 py-1.5 bg-white border border-slate-300 rounded text-xs italic hover:bg-slate-100 shadow-sm">I</button>
               <div class="w-px h-6 bg-slate-300 mx-1"></div>
-              <button onclick="insText('{Email}')" class="px-3 py-2 text-indigo-600 bg-indigo-50 border border-indigo-100 rounded text-xs font-bold hover:bg-indigo-100 shadow-sm">{Email}</button>
-              <button onclick="insText('{MaDon}')" class="px-3 py-2 text-indigo-600 bg-indigo-50 border border-indigo-100 rounded text-xs font-bold hover:bg-indigo-100 shadow-sm">{MãĐơn}</button>
-              <button onclick="insText('{Tên}')" class="px-3 py-2 text-indigo-600 bg-indigo-50 border border-indigo-100 rounded text-xs font-bold hover:bg-indigo-100 shadow-sm">{Tên}</button>
+              <button onclick="insText('{Email}')" class="px-3 py-1.5 text-indigo-700 bg-indigo-50 border border-indigo-200 rounded text-xs font-bold hover:bg-indigo-100 shadow-sm">{Email}</button>
+              <button onclick="insText('{MaDon}')" class="px-3 py-1.5 text-indigo-700 bg-indigo-50 border border-indigo-200 rounded text-xs font-bold hover:bg-indigo-100 shadow-sm">{MãĐơn}</button>
+              <button onclick="insText('{Nickname}')" class="px-3 py-1.5 text-indigo-700 bg-indigo-50 border border-indigo-200 rounded text-xs font-bold hover:bg-indigo-100 shadow-sm">{Nickname}</button>
               <div class="w-px h-6 bg-slate-300 mx-1"></div>
-              <button onclick="insText('\n[BTN]TÊN_NÚT|link_vao_day[/BTN]')" class="px-3 py-2 text-blue-600 bg-blue-50 border border-blue-100 rounded text-xs font-bold hover:bg-blue-100 shadow-sm"><i class="fas fa-link mr-1"></i>Nút</button>
-              <button onclick="insText('\n[IMG]link_anh_vao_day[/IMG]')" class="px-3 py-2 text-pink-600 bg-pink-50 border border-pink-100 rounded text-xs font-bold hover:bg-pink-100 shadow-sm"><i class="fas fa-image mr-1"></i>Ảnh</button>
+              <button onclick="insText('\n[BTN]TÊN_NÚT|link_vao_day[/BTN]')" class="px-3 py-1.5 text-blue-700 bg-blue-50 border border-blue-200 rounded text-xs font-bold hover:bg-blue-100 shadow-sm"><i class="fas fa-link mr-1"></i>Nút</button>
+              <button onclick="insText('\n[IMG]link_anh_vao_day[/IMG]')" class="px-3 py-1.5 text-pink-700 bg-pink-50 border border-pink-200 rounded text-xs font-bold hover:bg-pink-100 shadow-sm"><i class="fas fa-image mr-1"></i>Ảnh</button>
             </div>
             <textarea id="mailRaw" oninput="updatePreview()" rows="12" class="w-full p-4 focus:outline-none text-slate-800 text-sm leading-relaxed" style="font-family: 'Plus Jakarta Sans', sans-serif;" placeholder="Soạn nội dung tại đây..."></textarea>
           </div>
 
-          <div class="grid grid-cols-2 gap-3 mt-3">
+          <div class="grid grid-cols-2 gap-4 mt-4">
             <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
               <span class="text-xs font-bold text-slate-700">Cổng Khách Hàng</span>
               <label class="toggle-wrap"><input type="checkbox" id="togPortal" checked onchange="updatePreview()"><span class="toggle-slider"></span></label>
@@ -124,76 +134,109 @@
         </div>
       </div>
 
-      <div class="lg:col-span-4 flex flex-col justify-center">
-        <div class="phone-shell relative">
-          <div class="phone-screen">
-            <div class="bg-white p-3 border-b border-slate-100 shadow-sm shrink-0">
-              <div class="text-[12px] font-black text-slate-800 truncate" id="previewSubj">Tiêu đề email...</div>
-              <div class="text-[10px] text-slate-400 mt-0.5">Từ: VPN Trinh Hg</div>
+      <div class="xl:col-span-4 flex justify-center mt-4 xl:mt-0">
+        <div class="sticky top-16 w-full">
+          <div class="phone-shell relative">
+            <div class="phone-screen">
+              <div class="bg-white p-3 border-b border-slate-100 shadow-sm shrink-0">
+                <div class="text-[12px] font-black text-slate-800 truncate" id="previewSubj">Tiêu đề email...</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Từ: VPN Trinh Hg</div>
+              </div>
+              <div class="p-3 flex-1" id="previewPane"></div>
             </div>
-            <div class="p-3 flex-1" id="previewPane"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <div id="tab-send" class="hidden space-y-6">
-      <div>
-        <div class="flex justify-between items-center mb-3">
-          <h2 class="text-sm font-black text-slate-800 uppercase"><i class="fas fa-folder-open mr-1.5 text-indigo-500"></i>Mẫu Thư Đã Lưu</h2>
-          <button onclick="loadDataFromCloud()" class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50"><i class="fas fa-sync-alt mr-1"></i>Làm mới</button>
+    <div id="tab-campaigns" class="hidden">
+      <div class="flex items-center justify-between mb-4">
+        <div class="bg-slate-100 p-1 rounded-xl flex gap-1">
+          <div class="sub-tab-btn active" id="sub-btn-templates" onclick="goSubTab('templates')">Mẫu Lưu</div>
+          <div class="sub-tab-btn" id="sub-btn-send" onclick="goSubTab('send')">Bắn Mail</div>
         </div>
-        <div id="gridTemplates" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+        <button onclick="loadDataFromCloud()" class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 shadow-sm"><i class="fas fa-sync-alt mr-1"></i>Làm Mới Cloud</button>
       </div>
 
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col lg:flex-row">
-        <div class="lg:w-2/3 flex flex-col border-r border-slate-200 max-h-[400px]">
+      <div id="sub-tab-templates">
+        <div id="gridTemplates" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+      </div>
+
+      <div id="sub-tab-send" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div class="lg:col-span-4 space-y-4">
+          <div class="bg-gradient-to-br from-indigo-600 to-purple-700 p-5 rounded-2xl shadow-md text-white text-center flex flex-col">
+            <h3 class="font-black text-lg mb-1 uppercase tracking-wide">Xác Nhận Gửi</h3>
+            <p class="text-xs text-indigo-200 mb-4">Mẫu: <span id="activeTplName" class="font-bold text-white block truncate">Chưa chọn mẫu</span></p>
+            <button id="btnSendAll" onclick="executeSend()" class="w-full bg-white text-indigo-700 font-black py-3.5 rounded-xl shadow hover:shadow-lg transition text-sm uppercase"><i class="fas fa-paper-plane mr-2"></i>Bắn Mail Hàng Loạt</button>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-48">
+            <div class="px-3 py-2 bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center"><i class="fas fa-terminal mr-2"></i>Workflow Log</div>
+            <div id="workflowLog" class="terminal-log flex-1">...Sẵn sàng...</div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-8 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-[400px] lg:h-auto min-h-[400px]">
           <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50">
-            <div class="font-bold text-sm text-slate-700">Danh Sách Tick Chọn <span id="countTargets" class="ml-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-black">0</span></div>
+            <div class="font-bold text-sm text-slate-700">Tích chọn Gửi <span id="countSelected" class="ml-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-black">0</span></div>
             <div class="flex gap-3">
-              <button onclick="tickAll(true)" class="text-xs font-bold text-indigo-600 hover:underline">Chọn hết</button>
-              <button onclick="tickAll(false)" class="text-xs font-bold text-slate-500 hover:underline">Bỏ chọn</button>
+              <button onclick="tickAllSend(true)" class="text-xs font-bold text-indigo-600 hover:underline">Chọn hết</button>
+              <button onclick="tickAllSend(false)" class="text-xs font-bold text-slate-500 hover:underline">Bỏ chọn</button>
             </div>
           </div>
-          <div id="targetList" class="flex-1 overflow-y-auto bg-white p-2"></div>
-        </div>
-        
-        <div class="lg:w-1/3 bg-slate-50 p-6 flex flex-col justify-center text-center">
-          <h3 class="font-extrabold text-lg text-slate-800 mb-1">Xác Nhận Gửi</h3>
-          <p class="text-sm text-slate-500 mb-6">Mẫu chọn: <span id="activeTplName" class="font-bold text-indigo-600 block truncate mt-1">Chưa chọn mẫu</span></p>
-          <button id="btnSendAll" onclick="executeSend()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black py-4 rounded-xl shadow-lg hover:shadow-xl transition-all text-sm uppercase tracking-wide"><i class="fas fa-paper-plane mr-2"></i>Bắn Mail Hàng Loạt</button>
+          <div class="table-container flex-1">
+            <table class="w-full">
+              <thead><tr><th class="w-10 text-center"><i class="fas fa-check-square"></i></th><th>Email</th><th>Nickname</th><th>Mã Đơn</th></tr></thead>
+              <tbody id="sendTableBody"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
 
-    <div id="tab-targets" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+    <div id="tab-targets" class="hidden grid grid-cols-1 lg:grid-cols-10 gap-4">
+      <div class="lg:col-span-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[500px]">
         <h2 class="font-black text-slate-800 text-sm uppercase mb-2"><i class="fas fa-user-plus mr-1.5 text-indigo-500"></i>Nhập Dữ Liệu</h2>
-        <p class="text-[11px] text-slate-500 mb-3">Dán chuỗi email (ngăn cách dấu phẩy) hoặc dán toàn bộ JSON đơn hàng. Hệ thống tự động lọc đơn còn Hạn và cộng dồn vào danh sách.</p>
-        <textarea id="rawTargets" class="flex-1 w-full min-h-[250px] p-3 border border-slate-200 rounded-xl text-xs font-mono bg-slate-50 focus:border-indigo-500 outline-none resize-none mb-3" placeholder="a@gmail.com, b@...&#10;HOẶC dán JSON..."></textarea>
-        <button onclick="parseTargets()" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition shadow-sm"><i class="fas fa-plus mr-2"></i>Lọc & Thêm Khách</button>
+        <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Dán chuỗi email ngăn cách phẩy HOẶC dán toàn bộ JSON KV. Hệ thống tự lọc đơn còn Hạn và cộng dồn.</p>
+        <textarea id="rawTargets" class="flex-1 w-full p-3 border border-slate-200 rounded-xl text-xs font-mono bg-slate-50 focus:border-indigo-500 outline-none resize-none mb-3" placeholder="a@gmail.com, b@...&#10;HOẶC dán JSON..."></textarea>
+        <button onclick="parseTargets()" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition shadow-sm text-sm"><i class="fas fa-filter mr-1.5"></i>Lọc & Thêm Khách</button>
       </div>
 
-      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="font-black text-slate-800 text-sm uppercase"><i class="fas fa-list mr-1.5 text-indigo-500"></i>Danh Sách Hiện Tại</h2>
-          <button onclick="clearTargets()" class="bg-red-50 text-red-500 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-red-500 hover:text-white transition">Xóa Sạch</button>
+      <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[500px] overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50 shrink-0">
+          <div class="font-bold text-sm text-slate-700">Danh Sách Quản Lý <span id="countTargets" class="ml-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-black">0</span></div>
+          <div class="flex gap-2">
+            <button onclick="deleteSelectedTargets()" class="bg-white border border-red-200 text-red-500 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-red-50 transition shadow-sm"><i class="fas fa-trash mr-1"></i>Xóa Chọn</button>
+            <button onclick="clearTargets()" class="bg-red-50 border border-red-200 text-red-600 font-bold px-3 py-1.5 rounded-lg text-xs hover:bg-red-500 hover:text-white transition shadow-sm">Xóa Sạch</button>
+          </div>
         </div>
-        <div id="targetSummaryList" class="flex-1 bg-slate-50 border border-slate-100 rounded-xl p-2 overflow-y-auto max-h-[400px]"></div>
+        <div class="table-container flex-1 bg-white">
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="w-10 text-center"><input type="checkbox" onclick="tickAllTargets(this.checked)" class="accent-indigo-600 w-4 h-4"></th>
+                <th>Email</th>
+                <th>Nickname</th>
+                <th>Mã Đơn</th>
+                <th class="w-10 text-center">Xóa</th>
+              </tr>
+            </thead>
+            <tbody id="targetTableBody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <div id="tab-logs" class="hidden">
       <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
         <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50">
-          <h2 class="font-black text-slate-800 text-sm uppercase"><i class="fas fa-history mr-1.5 text-indigo-500"></i>Nhật Ký Gửi Mail</h2>
+          <h2 class="font-black text-slate-800 text-sm uppercase"><i class="fas fa-history mr-1.5 text-indigo-500"></i>Nhật Ký (200 Gần Nhất)</h2>
           <button onclick="clearLogs()" class="text-xs font-bold text-red-500 hover:underline">Xóa Lịch Sử</button>
         </div>
-        <div class="overflow-x-auto max-h-[600px]">
-          <table class="w-full log-table whitespace-nowrap">
-            <thead class="sticky top-0 bg-slate-100 shadow-sm">
+        <div class="table-container max-h-[600px]">
+          <table class="w-full whitespace-nowrap">
+            <thead>
               <tr>
-                <th>STT</th>
+                <th class="w-10 text-center">STT</th>
                 <th>Loại Mail</th>
                 <th>Email Khách</th>
                 <th>Mã Đơn</th>
@@ -211,12 +254,10 @@
 
   <script>
     // ==========================================
-    // 1. CẤU HÌNH API GITHUB/GAS
+    // 1. CẤU HÌNH API
     // ==========================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbywpkOs5MEMgUVkDQVP-iebs1wR-DJcinFXweRl7q8MxQ9yPW4SB2N3worE_bq5WqMP/exec"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJ55tH_fTv3kuukp0cKO6ZcEekU0aeWJ0hzXhYyw6ONGLji5-SG-LJbIFcpUtQ-tWS/exec"; // THAY LINK APP SCRIPT VÀO ĐÂY
     const PORTAL_URL = "https://vpntrinhhg.pages.dev";
-    
-    // Đường dẫn Raw (Thay bằng User/Repo thật của bạn nếu cần)
     const BASE_RAW = "https://raw.githubusercontent.com/trinhhg/quanlymail/main"; 
     
     let templatesDb = [];
@@ -226,10 +267,16 @@
     let editingTplId = null;
     let activeTemplateIndex = null;
 
-    // Khởi tạo
+    // ==========================================
+    // 2. KHỞI TẠO & LƯU TRẠNG THÁI TAB
+    // ==========================================
     window.onload = () => {
       loadDataFromCloud();
       updatePreview();
+      const savedTab = localStorage.getItem('promoActiveTab') || 'compose';
+      const savedSubTab = localStorage.getItem('promoActiveSubTab') || 'templates';
+      goTab(savedTab, false);
+      if(savedTab === 'campaigns') goSubTab(savedSubTab);
     };
 
     function toast(msg, type="ok") {
@@ -241,27 +288,43 @@
       setTimeout(() => { el.classList.remove("show"); setTimeout(() => el.remove(), 250); }, 3000);
     }
 
-    function goTab(tab) {
-      ['compose', 'send', 'targets', 'logs'].forEach(t => {
+    function goTab(tab, save=true) {
+      if(save) localStorage.setItem('promoActiveTab', tab);
+      ['compose', 'campaigns', 'targets', 'logs'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tab);
         document.getElementById(`btn-${t}`).classList.toggle('active', t === tab);
       });
-      if(tab === 'send') { renderTemplatesForSending(); renderTargetsForSending(); }
-      if(tab === 'targets') renderTargetSummary();
+      if(tab === 'campaigns') { renderTemplates(); renderSendTable(); }
+      if(tab === 'targets') renderTargetTable();
       if(tab === 'logs') renderLogs();
     }
 
+    function goSubTab(subTab) {
+      localStorage.setItem('promoActiveSubTab', subTab);
+      ['templates', 'send'].forEach(t => {
+        document.getElementById(`sub-tab-${t}`).classList.toggle('hidden', t !== subTab);
+        document.getElementById(`sub-btn-${t}`).classList.toggle('active', t === subTab);
+      });
+    }
+
     // ==========================================
-    // 2. GIAO TIẾP GITHUB CLOUD
+    // 3. API GITHUB CLOUD
     // ==========================================
     async function loadDataFromCloud() {
       try { const r = await fetch(`${BASE_RAW}/templates.json?t=${Date.now()}`); if(r.ok) templatesDb = await r.json(); } catch(e){}
-      try { const r = await fetch(`${BASE_RAW}/targets.json?t=${Date.now()}`); if(r.ok) parsedTargets = await r.json(); } catch(e){}
+      try { const r = await fetch(`${BASE_RAW}/targets.json?t=${Date.now()}`); if(r.ok) { parsedTargets = await r.json(); ensureSelectedState(); } } catch(e){}
       try { const r = await fetch(`${BASE_RAW}/logs.json?t=${Date.now()}`); if(r.ok) logsDb = await r.json(); } catch(e){}
-      renderTargetSummary();
+      
+      renderTemplates(); renderTargetTable(); renderSendTable(); renderLogs();
+    }
+
+    // Đảm bảo target luôn có trường selected
+    function ensureSelectedState() {
+      parsedTargets.forEach(t => { if(t.selected === undefined) t.selected = true; });
     }
 
     async function apiCommit(path, data, msg) {
+      // Gửi raw JSON để tránh CORS preflight bị chặn
       return fetch(SCRIPT_URL, {
         method: 'POST',
         body: JSON.stringify({ action: "commitData", path: path, content: JSON.stringify(data, null, 2), message: msg })
@@ -269,7 +332,7 @@
     }
 
     // ==========================================
-    // 3. LOGIC SOẠN MAIL (EDITOR & PREVIEW)
+    // 4. LOGIC SOẠN MAIL & PREVIEW
     // ==========================================
     function insText(t) {
       const ta = document.getElementById("mailRaw"); const s = ta.selectionStart;
@@ -282,9 +345,9 @@
                     .replace(/\[I\](.*?)\[\/I\]/gs, "<i>$1</i>")
                     .replace(/\{Email\}/g, `<b style="color:#0f172a;">${email}</b>`)
                     .replace(/\{MaDon\}/g, `<b style="color:#4f46e5;">${maDon}</b>`)
-                    .replace(/\{Tên\}/g, `<b>${nickname}</b>`); 
+                    .replace(/\{Nickname\}/g, `<b>${nickname}</b>`)
+                    .replace(/\{Tên\}/g, `<b>${nickname}</b>`);
       
-      // Xử lý Ảnh ép max-height và max-width gọn gàng
       html = html.replace(/\[IMG\](.*?)\[\/IMG\]/gi, '<img src="$1" style="max-width:100%; max-height:220px; width:auto; height:auto; object-fit:contain; border-radius:8px; margin:15px auto; display:block; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);" />');
       html = html.replace(/\[BTN\](.*?)\|(.*?)\[\/BTN\]/gi, '<div style="text-align:center;margin:20px 0;"><a href="$2" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;padding:12px 24px;border-radius:8px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 4px 10px rgba(79,70,229,0.3)">$1</a></div>');
 
@@ -308,7 +371,7 @@
 
       let contactBlock = useContact ? `<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-top:10px;text-align:center;"><p style="margin:0 0 12px 0;color:#475569;font-size:13px;font-weight:bold;">Cần hỗ trợ? Đội ngũ của chúng tôi sẵn sàng 24/24</p><div style="display:block;width:100%;"><a href="https://zalo.me/0917678211" style="display:inline-block;width:46%;background:#0068ff;color:white;padding:10px 0;text-decoration:none;border-radius:8px;font-weight:bold;font-size:12px;box-sizing:border-box;">Chat Zalo</a><a href="https://www.facebook.com/trinh.hg.57" style="display:inline-block;width:46%;background:#0668E1;color:white;padding:10px 0;text-decoration:none;border-radius:8px;font-weight:bold;font-size:12px;margin-left:4%;box-sizing:border-box;">Messenger</a></div></div>` : "";
 
-      return `<div style="font-family:'Plus Jakarta Sans', Arial, sans-serif;width:100%;max-width:500px;margin:auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-sizing:border-box;"><div style="background:${colorHex};padding:15px 10px;text-align:center;"><p style="font-size:18px;text-transform:uppercase;font-weight:900;margin:0;color:white;">${headerStr}</p></div><div style="padding:20px;box-sizing:border-box;">${bodyHtml}${portalBlock}${contactBlock}</div></div>`;
+      return `<div style="font-family:'Plus Jakarta Sans', Arial, sans-serif;width:100%;max-width:500px;margin:auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-sizing:border-box;"><div style="background:${colorHex};padding:15px 10px;text-align:center;"><p class="mail-header-text">${headerStr}</p></div><div style="padding:20px;box-sizing:border-box;">${bodyHtml}${portalBlock}${contactBlock}</div></div>`;
     }
 
     function updatePreview() {
@@ -324,20 +387,19 @@
     }
 
     // ==========================================
-    // 4. QUẢN LÝ MẪU LƯU (TẠO/SỬA/XÓA)
+    // 5. QUẢN LÝ MẪU (LƯU & XÓA)
     // ==========================================
     async function saveTemplate() {
-      const subj = document.getElementById("mailSubj").value;
-      const head = document.getElementById("mailHead").value;
+      const subj = document.getElementById("mailSubj").value.trim();
+      const head = document.getElementById("mailHead").value.trim();
       const color = document.querySelector('input[name="colorTheme"]:checked').value;
-      const raw = document.getElementById("mailRaw").value;
+      const raw = document.getElementById("mailRaw").value.trim();
       const useContact = document.getElementById("togContact").checked;
       const usePortal = document.getElementById("togPortal").checked;
 
       if(!subj || !raw) return toast("Nhập đủ Tiêu đề và Nội dung!", "err");
 
       if (editingTplId) {
-        // Cập nhật
         const idx = templatesDb.findIndex(t => t.id === editingTplId);
         if(idx > -1) templatesDb[idx] = { id: editingTplId, subj, head, color, raw, useContact, usePortal };
         editingTplId = null;
@@ -345,14 +407,13 @@
         document.getElementById("btnSaveNew").classList.remove("hidden");
         toast("Đã cập nhật Mẫu!");
       } else {
-        // Lưu mới
         templatesDb.unshift({ id: Date.now(), subj, head, color, raw, useContact, usePortal });
         toast("Đã lưu Mẫu mới!");
       }
       
       apiCommit("templates.json", templatesDb, "Update Tpl");
       document.getElementById("mailSubj").value = ""; document.getElementById("mailHead").value = ""; document.getElementById("mailRaw").value = "";
-      updatePreview();
+      updatePreview(); renderTemplates();
     }
 
     function cancelEdit() {
@@ -364,36 +425,28 @@
     }
 
     function editTpl(i) {
-      const t = templatesDb[i];
-      editingTplId = t.id;
-      document.getElementById("mailSubj").value = t.subj;
-      document.getElementById("mailHead").value = t.head;
-      document.getElementById("mailRaw").value = t.raw;
-      document.getElementById("togContact").checked = t.useContact;
-      document.getElementById("togPortal").checked = t.usePortal;
+      const t = templatesDb[i]; editingTplId = t.id;
+      document.getElementById("mailSubj").value = t.subj; document.getElementById("mailHead").value = t.head; document.getElementById("mailRaw").value = t.raw;
+      document.getElementById("togContact").checked = t.useContact; document.getElementById("togPortal").checked = t.usePortal;
       document.querySelectorAll('input[name="colorTheme"]').forEach(r => { if(r.value === t.color) r.checked = true; });
       
-      document.getElementById("editActions").classList.remove("hidden");
-      document.getElementById("btnSaveNew").classList.add("hidden");
+      document.getElementById("editActions").classList.remove("hidden"); document.getElementById("btnSaveNew").classList.add("hidden");
       updatePreview(); goTab('compose'); toast("Đang sửa mẫu...");
     }
 
     function selectTpl(i) {
-      activeTemplateIndex = i;
-      renderTemplatesForSending();
+      activeTemplateIndex = i; renderTemplates();
       document.getElementById("activeTplName").textContent = templatesDb[i].subj;
-      toast("Đã chọn mẫu để gửi!");
+      goSubTab('send'); toast("Đã chọn mẫu, hãy kiểm tra danh sách và gửi!");
     }
 
     function delTpl(i) {
-      if(activeTemplateIndex === i) activeTemplateIndex = null;
-      templatesDb.splice(i, 1); 
-      renderTemplatesForSending(); 
-      toast("Đã xóa mẫu!");
+      if(activeTemplateIndex === i) { activeTemplateIndex = null; document.getElementById("activeTplName").textContent = "Chưa chọn mẫu"; }
+      templatesDb.splice(i, 1); renderTemplates(); toast("Đã xóa mẫu!");
       apiCommit("templates.json", templatesDb, "Delete Tpl");
     }
 
-    function renderTemplatesForSending() {
+    function renderTemplates() {
       const grid = document.getElementById("gridTemplates");
       if(!templatesDb.length) { grid.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 font-bold border border-dashed rounded-xl">Chưa có mẫu nào</div>`; return; }
       
@@ -404,13 +457,15 @@
         
         return `
         <div class="tpl-card bg-white border border-slate-200 rounded-2xl flex flex-col overflow-hidden ${cardClass}">
-          <div class="mini-preview-wrap"><div class="mini-preview-scale">${miniHtml}</div></div>
-          <div class="p-3 bg-white flex flex-col justify-between flex-1">
+          <div class="mini-phone-shell relative mx-auto mt-2">
+            <div class="mini-phone-screen p-1"><div class="mini-preview-wrap" style="height:auto;border:none;"><div class="mini-preview-scale" style="transform:scale(0.35);margin-left:-90%;width:280%;">${miniHtml}</div></div></div>
+          </div>
+          <div class="p-3 bg-white flex flex-col justify-between flex-1 border-t border-slate-100 mt-2">
             <h3 class="font-bold text-slate-800 text-[13px] line-clamp-2 mb-3 leading-tight">${t.subj}</h3>
             <div class="flex gap-1.5">
-              <button onclick="selectTpl(${i})" class="flex-1 ${isSelected ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700'} font-bold py-1.5 rounded-lg text-xs transition">Sử dụng</button>
-              <button onclick="editTpl(${i})" class="bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white px-2.5 rounded-lg transition"><i class="fas fa-pen"></i></button>
-              <button onclick="delTpl(${i})" class="bg-red-50 text-red-500 hover:bg-red-500 hover:text-white px-2.5 rounded-lg transition"><i class="fas fa-trash"></i></button>
+              <button onclick="selectTpl(${i})" class="flex-1 ${isSelected ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700'} font-bold py-1.5 rounded-lg text-[10px] uppercase transition shadow-sm">${isSelected ? 'Đang Chọn' : 'Sử dụng'}</button>
+              <button onclick="editTpl(${i})" class="bg-amber-50 text-amber-600 border border-amber-100 hover:bg-amber-500 hover:text-white px-2.5 rounded-lg transition shadow-sm"><i class="fas fa-pen"></i></button>
+              <button onclick="delTpl(${i})" class="bg-red-50 text-red-500 border border-red-100 hover:bg-red-500 hover:text-white px-2.5 rounded-lg transition shadow-sm"><i class="fas fa-trash"></i></button>
             </div>
           </div>
         </div>
@@ -418,7 +473,7 @@
     }
 
     // ==========================================
-    // 5. QUẢN LÝ KHÁCH HÀNG (ADD/LIST)
+    // 6. QUẢN LÝ KHÁCH HÀNG (ADD/TABLE)
     // ==========================================
     function parseDate(dateStr) {
       if(!dateStr) return null; const p = dateStr.split('/');
@@ -440,7 +495,7 @@
             if(o.status === "success" && o.email) {
               const exp = parseDate(o.expDate); const cleanEmail = o.email.trim();
               if(exp && exp >= today && !isExist(cleanEmail)) {
-                parsedTargets.push({ email: cleanEmail, id: o.id || "N/A", nickname: o.nickname || "Bạn" }); countAdded++;
+                parsedTargets.push({ email: cleanEmail, id: o.id || "N/A", nickname: o.nickname || "Bạn", selected: true }); countAdded++;
               }
             }
           });
@@ -448,52 +503,96 @@
       } catch (e) {
         const emails = raw.split(/[\n,]+/).map(e => e.trim()).filter(e => e.includes('@'));
         emails.forEach(e => {
-          if(!isExist(e)) { parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn" }); countAdded++; }
+          if(!isExist(e)) { parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn", selected: true }); countAdded++; }
         });
       }
       
       if(countAdded > 0) {
         document.getElementById("rawTargets").value = "";
-        renderTargetSummary();
-        toast(`Thêm thành công ${countAdded} khách! Đang đồng bộ...`);
+        renderTargetTable(); renderSendTable();
+        toast(`Thêm ${countAdded} khách! Đang đồng bộ...`);
         apiCommit("targets.json", parsedTargets, "Add Targets");
       } else { toast("Không tìm thấy khách mới hợp lệ!", "warn"); }
     }
 
+    function toggleTarget(i) {
+      parsedTargets[i].selected = !parsedTargets[i].selected;
+      renderSendTable(); renderTargetTable(); // Update cả 2 nơi
+    }
+
+    function tickAllTargets(state) {
+      parsedTargets.forEach(t => t.selected = state);
+      renderSendTable(); renderTargetTable();
+    }
+    
+    function tickAllSend(state) {
+      parsedTargets.forEach(t => t.selected = state);
+      renderSendTable(); renderTargetTable();
+    }
+
+    function delTarget(i) {
+      parsedTargets.splice(i, 1); renderTargetTable(); renderSendTable();
+      apiCommit("targets.json", parsedTargets, "Delete single target");
+    }
+
+    function deleteSelectedTargets() {
+      const initialLength = parsedTargets.length;
+      parsedTargets = parsedTargets.filter(t => !t.selected);
+      if(parsedTargets.length === initialLength) return toast("Chưa chọn khách nào để xóa!", "warn");
+      renderTargetTable(); renderSendTable();
+      apiCommit("targets.json", parsedTargets, "Delete selected targets");
+      toast("Đã xóa các khách được chọn!");
+    }
+
     function clearTargets() {
-      if(confirm("Xóa sạch danh sách chờ gửi?")) {
-        parsedTargets = []; renderTargetSummary();
+      if(confirm("Xóa sạch danh sách quản lý?")) {
+        parsedTargets = []; renderTargetTable(); renderSendTable();
         apiCommit("targets.json", parsedTargets, "Clear Targets");
       }
     }
 
-    function renderTargetSummary() {
-      const list = document.getElementById("targetSummaryList");
-      if(!parsedTargets.length) { list.innerHTML = `<div class="p-5 text-center text-slate-400 font-bold text-xs">Trống</div>`; return; }
-      list.innerHTML = parsedTargets.map(t => `<div class="flex justify-between items-center py-2 border-b border-slate-200 last:border-0"><div class="text-sm font-bold text-slate-700">${t.email}</div><div class="text-[10px] text-slate-500 font-mono">${t.id}</div></div>`).join('');
-    }
-
-    function renderTargetsForSending() {
-      const list = document.getElementById("targetList");
+    function renderTargetTable() {
+      const tbody = document.getElementById("targetTableBody");
       document.getElementById("countTargets").textContent = parsedTargets.length;
-      if(!parsedTargets.length) { list.innerHTML = `<div class="p-6 text-center text-slate-400 font-bold text-sm">Chưa có khách nào. Hãy sang Tab Khách Hàng để thêm.</div>`; return; }
+      if(!parsedTargets.length) { tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400 font-bold">Danh sách trống</td></tr>`; return; }
       
-      list.innerHTML = parsedTargets.map((t, i) => `
-        <label class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer border-b border-slate-50">
-          <input type="checkbox" value="${i}" class="cb-target accent-indigo-600 w-4 h-4" checked>
-          <div class="flex-1 min-w-0">
-            <div class="font-bold text-slate-800 text-sm truncate">${t.email}</div>
-            <div class="text-[10px] text-slate-500 flex gap-2 mt-0.5"><span class="font-mono text-indigo-500">${t.id}</span>${t.nickname !== 'Bạn' ? `<span class="bg-slate-200 px-1 rounded">${t.nickname}</span>`:''}</div>
-          </div>
-        </label>
+      tbody.innerHTML = parsedTargets.map((t, i) => `
+        <tr>
+          <td class="text-center"><input type="checkbox" class="accent-indigo-600 w-4 h-4" ${t.selected ? 'checked' : ''} onchange="toggleTarget(${i})"></td>
+          <td class="font-bold">${t.email}</td>
+          <td>${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[10px] font-bold">${t.nickname}</span>` : '<span class="text-slate-300 italic text-[10px]">Bạn</span>'}</td>
+          <td class="font-mono text-indigo-500 text-[10px]">${t.id}</td>
+          <td class="text-center"><button onclick="delTarget(${i})" class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button></td>
+        </tr>
       `).join('');
     }
 
-    function tickAll(state) { document.querySelectorAll(".cb-target").forEach(cb => cb.checked = state); }
+    function renderSendTable() {
+      const tbody = document.getElementById("sendTableBody");
+      const selectedCount = parsedTargets.filter(t => t.selected).length;
+      document.getElementById("countSelected").textContent = selectedCount;
+      if(!parsedTargets.length) { tbody.innerHTML = `<tr><td colspan="4" class="text-center py-6 text-slate-400 font-bold">Hãy sang tab Khách Hàng để thêm dữ liệu</td></tr>`; return; }
+      
+      tbody.innerHTML = parsedTargets.map((t, i) => `
+        <tr>
+          <td class="text-center"><input type="checkbox" class="cb-target accent-indigo-600 w-4 h-4" value="${i}" ${t.selected ? 'checked' : ''} onchange="toggleTarget(${i})"></td>
+          <td class="font-bold ${t.selected ? 'text-slate-800' : 'text-slate-400 line-through'}">${t.email}</td>
+          <td>${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[10px] font-bold">${t.nickname}</span>` : ''}</td>
+          <td class="font-mono text-indigo-500 text-[10px]">${t.id}</td>
+        </tr>
+      `).join('');
+    }
 
     // ==========================================
-    // 6. GỬI MAIL & GHI LOGS
+    // 7. GỬI MAIL & LOGS
     // ==========================================
+    function logToTerminal(msg, type="info") {
+      const term = document.getElementById("workflowLog");
+      const color = type === 'success' ? '#4ade80' : (type === 'error' ? '#f87171' : '#94a3b8');
+      term.innerHTML += `<div style="color:${color}">> ${msg}</div>`;
+      term.scrollTop = term.scrollHeight;
+    }
+
     function extractMailType(subj) {
       if(!subj) return "Không xác định";
       const parts = subj.split(/[-–]/);
@@ -501,9 +600,10 @@
     }
 
     async function executeSend() {
-      if(activeTemplateIndex === null) return toast("Bạn chưa CHỌN MẪU ĐỂ GỬI!", "err");
-      const selectedCB = Array.from(document.querySelectorAll(".cb-target:checked"));
-      if(!selectedCB.length) return toast("Chưa chọn khách nào!", "err");
+      if(activeTemplateIndex === null) return toast("CHƯA CHỌN MẪU! Hãy bấm 'Sử dụng' ở một mẫu.", "err");
+      
+      const toSend = parsedTargets.filter(t => t.selected);
+      if(!toSend.length) return toast("Chưa tick chọn khách nào để gửi!", "err");
       
       const t = templatesDb[activeTemplateIndex];
       const btn = document.getElementById("btnSendAll");
@@ -512,9 +612,11 @@
       const mailType = extractMailType(t.subj);
       const nowStr = new Date().toLocaleString('vi-VN');
 
-      for (let i = 0; i < selectedCB.length; i++) {
-        const target = parsedTargets[parseInt(selectedCB[i].value)];
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi (${i+1}/${selectedCB.length})...`;
+      document.getElementById("workflowLog").innerHTML = `<div class="text-indigo-300">> Khởi tạo luồng gửi (${toSend.length} email)...</div>`;
+
+      for (let i = 0; i < toSend.length; i++) {
+        const target = toSend[i];
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi (${i+1}/${toSend.length})...`;
         
         const htmlBody = buildFinalHtml(t.subj, t.head, t.color, t.raw, t.useContact, t.usePortal, target.email, target.id, target.nickname);
         
@@ -524,33 +626,34 @@
             body: JSON.stringify({ action: "sendMail", to: target.email, subject: t.subj, html: htmlBody })
           });
           successCount++;
-          // Add Log
+          logToTerminal(`[OK] Đã gửi: ${target.email}`, 'success');
+          
           logsDb.unshift({ type: mailType, email: target.email, order: target.id, nick: target.nickname, time: nowStr });
           if(logsDb.length > 200) logsDb = logsDb.slice(0, 200);
           
           await new Promise(r => setTimeout(r, 400));
-        } catch (err) {}
+        } catch (err) {
+          logToTerminal(`[LỖI] Thất bại: ${target.email}`, 'error');
+        }
       }
 
-      toast(`Hoàn tất! Đã gửi ${successCount}/${selectedCB.length} email.`);
+      logToTerminal(`> XONG! Thành công ${successCount}/${toSend.length}.`, 'info');
+      toast(`Hoàn tất! Đã gửi ${successCount}/${toSend.length} email.`);
       btn.innerHTML = `<i class="fas fa-paper-plane mr-2"></i>Bắn Mail Hàng Loạt`;
       btn.disabled = false;
       
-      // Lưu logs
       apiCommit("logs.json", logsDb, "Save Logs");
+      renderLogs();
     }
 
-    // ==========================================
-    // 7. HIỂN THỊ LOGS
-    // ==========================================
     function renderLogs() {
       const tbody = document.getElementById("logTableBody");
-      if(!logsDb.length) { tbody.innerHTML = `<tr><td colspan="6" class="text-center p-4 text-slate-400">Trống</td></tr>`; return; }
-      tbody.innerHTML = logsDb.map((l, i) => `<tr><td class="font-bold text-slate-400">${i+1}</td><td class="font-bold text-indigo-600">${l.type}</td><td>${l.email}</td><td class="font-mono text-xs">${l.order}</td><td>${l.nick}</td><td class="text-xs text-slate-500">${l.time}</td></tr>`).join('');
+      if(!logsDb.length) { tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400 font-bold">Chưa có lịch sử</td></tr>`; return; }
+      tbody.innerHTML = logsDb.map((l, i) => `<tr><td class="text-center font-bold text-slate-400">${i+1}</td><td class="font-bold text-indigo-600">${l.type}</td><td>${l.email}</td><td class="font-mono text-xs text-slate-500">${l.order}</td><td>${l.nick !== 'Bạn' ? `<span class="bg-slate-100 px-1.5 rounded text-[10px]">${l.nick}</span>`:''}</td><td class="text-xs text-slate-400">${l.time}</td></tr>`).join('');
     }
 
     function clearLogs() {
-      if(confirm("Xóa lịch sử 200 logs gần nhất?")) {
+      if(confirm("Xóa toàn bộ lịch sử gửi?")) {
         logsDb = []; renderLogs();
         apiCommit("logs.json", logsDb, "Clear Logs");
       }
