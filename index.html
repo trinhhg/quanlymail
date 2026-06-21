@@ -10,19 +10,16 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #0f172a; margin: 0; }
     
-    /* Toast Alert */
     .toast { position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; pointer-events: none; }
     .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1); transform: translateX(120%); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
     .toast-item.show { transform: translateX(0); }
 
-    /* Color Swatches */
     .color-swatch { display: none; }
     .color-swatch + label { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
     .color-swatch:checked + label { border-color: #0f172a; transform: scale(1.15); }
     .color-swatch + label::after { content: '✓'; color: white; font-size: 14px; font-weight: 900; opacity: 0; }
     .color-swatch:checked + label::after { opacity: 1; }
 
-    /* Toggles */
     .toggle-wrap { position: relative; width: 44px; height: 24px; display: inline-block; }
     .toggle-wrap input { opacity: 0; width: 0; height: 0; }
     .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #cbd5e1; border-radius: 24px; transition: 0.3s; }
@@ -30,7 +27,6 @@
     input:checked + .toggle-slider { background: #4f46e5; }
     input:checked + .toggle-slider::before { transform: translateX(20px); }
 
-    /* Phone Preview */
     .phone-shell { background: #1e293b; border-radius: 2.5rem; padding: 12px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3); width: 320px; height: 600px; margin: 0 auto; }
     .phone-screen { background: #f8fafc; border-radius: 1.75rem; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
     
@@ -52,7 +48,6 @@
   </header>
 
   <main class="max-w-6xl mx-auto p-4 mt-4">
-    
     <div id="tab-compose" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="space-y-4">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
@@ -87,8 +82,8 @@
               <button onclick="insText('{MaDon}')" class="px-2 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{Mã Đơn}</button>
               <button onclick="insText('{Nickname}')" class="px-2 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{Tên}</button>
               <div class="w-px h-4 bg-slate-300 mx-1"></div>
-              <button onclick="insText('[BTN] TẢI VỀ | https://...')" class="px-2 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded text-xs font-bold hover:bg-blue-100"><i class="fas fa-link mr-1"></i>Nút</button>
-              <button onclick="insText('[IMG] https://...')" class="px-2 py-1 bg-pink-50 text-pink-600 border border-pink-100 rounded text-xs font-bold hover:bg-pink-100"><i class="fas fa-image mr-1"></i>Ảnh</button>
+              <button onclick="insText('\n[BTN] TẢI VỀ | https://...')" class="px-2 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded text-xs font-bold hover:bg-blue-100"><i class="fas fa-link mr-1"></i>Nút</button>
+              <button onclick="insText('\n[IMG] https://...')" class="px-2 py-1 bg-pink-50 text-pink-600 border border-pink-100 rounded text-xs font-bold hover:bg-pink-100"><i class="fas fa-image mr-1"></i>Ảnh</button>
             </div>
             <textarea id="mailRaw" oninput="updatePreview()" rows="10" class="w-full p-4 focus:outline-none text-slate-800 font-mono text-sm leading-relaxed" placeholder="Soạn nội dung..."></textarea>
           </div>
@@ -127,8 +122,7 @@
         <h2 class="text-xl font-bold text-slate-800">Quản lý Mẫu Email</h2>
         <button onclick="loadTemplatesFromCloud()" class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 shadow-sm"><i class="fas fa-sync-alt mr-1"></i>Làm mới</button>
       </div>
-      <div id="gridTemplates" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        </div>
+      <div id="gridTemplates" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </div>
 
     <div id="tab-targets" class="hidden">
@@ -136,9 +130,12 @@
         <div class="lg:col-span-1 space-y-4">
           <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
             <h3 class="font-bold text-slate-800 mb-2">Thêm Khách Hàng</h3>
-            <p class="text-xs text-slate-500 mb-3">Dán chuỗi email cách bằng dấu phẩy, HOẶC dán toàn bộ mảng JSON từ hệ thống để tự động lọc đơn còn HSD.</p>
+            <p class="text-xs text-slate-500 mb-3">Dán chuỗi email cách bằng dấu phẩy, HOẶC dán toàn bộ JSON để lọc đơn còn HSD. Nó sẽ <b>Cộng dồn</b> vào danh sách.</p>
             <textarea id="rawTargets" rows="8" class="w-full p-3 border border-slate-200 rounded-xl text-xs font-mono bg-slate-50 focus:border-indigo-500 outline-none mb-3" placeholder="a@gmail.com, b@gmail.com&#10;Hoặc dán JSON..."></textarea>
-            <button onclick="parseTargets()" class="w-full bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-bold py-2.5 rounded-xl transition text-sm"><i class="fas fa-filter mr-1"></i>Lọc Dữ Liệu</button>
+            <div class="flex gap-2">
+              <button onclick="parseTargets()" class="flex-1 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-bold py-2.5 rounded-xl transition text-sm"><i class="fas fa-plus mr-1"></i>Thêm Khách</button>
+              <button onclick="clearTargets()" class="bg-red-50 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2.5 px-3 rounded-xl transition text-sm"><i class="fas fa-trash"></i></button>
+            </div>
           </div>
           
           <div class="bg-indigo-600 p-4 rounded-2xl shadow-md text-white text-center">
@@ -160,7 +157,7 @@
               </div>
             </div>
             <div id="targetList" class="divide-y divide-slate-100 overflow-y-auto max-h-[600px] bg-white p-2">
-              <div class="p-8 text-center text-slate-400 font-bold text-sm">Chưa có dữ liệu. Hãy nhập và lọc ở cột bên trái.</div>
+              <div class="p-8 text-center text-slate-400 font-bold text-sm">Chưa có dữ liệu. Hãy nhập và thêm ở cột bên trái.</div>
             </div>
           </div>
         </div>
@@ -169,14 +166,47 @@
   </main>
 
   <script>
-    // --- CONFIGURATION ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyTdcRxfaW3aoFJjF3SKyeG_U2urz-TdjQI2Y3Mv4-sOF3YxE989LOPUA7SZ9xD4YI8/exec"; // THAY LINK GAS CỦA BẠN VÀO ĐÂY
+    // ==========================================
+    // 1. CẤU HÌNH (THAY LINK CỦA BẠN VÀO ĐÂY)
+    // ==========================================
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqS2sJ5aMcdX9gWv4R_X9E/exec"; 
     const PORTAL_URL = "https://vpntrinhhg.pages.dev";
+    const RAW_GITHUB_URL = "https://raw.githubusercontent.com/trinhhg/quanlymail/main/templates.json"; 
     
     let templatesDb = [];
-    let parsedTargets = [];
+    
+    // Đọc danh sách mục tiêu từ LocalStorage (Đảm bảo F5 không mất)
+    let parsedTargets = JSON.parse(localStorage.getItem('promoTargets')) || [];
 
-    // --- UTILS ---
+    // Tự động kéo Mẫu và Danh sách đã lưu khi load trang
+    window.onload = () => {
+      loadTemplatesFromCloud();
+      renderTargets();
+      updatePreview();
+    };
+
+    // ==========================================
+    // 2. TẢI DỮ LIỆU TỪ GITHUB
+    // ==========================================
+    async function loadTemplatesFromCloud() {
+      try {
+        const res = await fetch(`${RAW_GITHUB_URL}?t=${Date.now()}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            templatesDb = data;
+            renderTemplates();
+            toast("Đã đồng bộ mẫu từ Cloud!", "ok");
+          }
+        }
+      } catch (e) {
+        toast("Lỗi tải mẫu: Chưa có file hoặc mạng lỗi.", "err");
+      }
+    }
+
+    // ==========================================
+    // 3. XỬ LÝ HTML & HIỂN THỊ
+    // ==========================================
     function toast(msg, type="ok") {
       const box = document.getElementById("toastBox"); const el = document.createElement("div");
       el.className = `toast-item ${type === 'err' ? 'border-red-500' : 'border-green-500'}`;
@@ -200,8 +230,8 @@
       ta.focus(); updatePreview();
     }
 
-    // --- GENERATE HTML ---
     function parseContent(raw, email="khach@email.com", maDon="DH-XXXXXXXX", nickname="Bạn") {
+      // 1. Quét xử lý in đậm, in nghiêng, và biến
       let html = raw.replace(/\[B\](.*?)\[\/B\]/gs, "<b>$1</b>")
                     .replace(/\[I\](.*?)\[\/I\]/gs, "<i>$1</i>")
                     .replace(/\{Email\}/g, `<b style="color:#0f172a;">${email}</b>`)
@@ -209,28 +239,50 @@
                     .replace(/\{Nickname\}/g, `<b>${nickname}</b>`);
       
       let out = "";
-      html.split('\n').forEach(line => {
-        line = line.trim(); if(!line) return;
-        if(line === "[LINE]") out += `<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;" />`;
-        else if(line.startsWith("[IMG]")) {
-          let url = line.substring(5).trim();
-          // Fix size ảnh chuẩn
-          out += `<img src="${url}" style="max-width:100%;height:auto;border-radius:8px;margin:15px auto;display:block;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);" />`;
+      let lines = html.split('\n');
+      
+      // 2. Lặp qua từng dòng để xử lý thẻ Ảnh và Nút chuẩn xác hơn
+      lines.forEach(line => {
+        let trimLine = line.trim();
+        if(!trimLine) return;
+
+        // Check LINE
+        if(trimLine === "[LINE]") {
+          out += `<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;" />`;
+          return;
         }
-        else if(line.startsWith("[BTN]")) {
-          let parts = line.substring(5).split("|");
-          out += `<div style="text-align:center;margin:20px 0;"><a href="${parts[1]?.trim()}" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;padding:12px 24px;border-radius:8px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 4px 10px rgba(79,70,229,0.3)">${parts[0]?.trim()}</a></div>`;
+        // Check IMG bằng Regex để không bị lỗi nếu có khoảng trắng
+        let imgMatch = trimLine.match(/\[IMG\]\s*(https?:\/\/[^\s<]+)/i);
+        if (imgMatch) {
+          out += `<img src="${imgMatch[1]}" style="max-width:100%;height:auto;border-radius:8px;margin:15px auto;display:block;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);" />`;
+          return;
         }
-        else out += `<p style="margin:0 0 10px 0;color:#334155;font-size:14px;line-height:1.6;">${line}</p>`;
+        // Check BTN bằng Regex
+        let btnMatch = trimLine.match(/\[BTN\]\s*(.*?)\|\s*(https?:\/\/[^\s<]+)/i);
+        if (btnMatch) {
+          out += `<div style="text-align:center;margin:20px 0;"><a href="${btnMatch[2]}" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;padding:12px 24px;border-radius:8px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 4px 10px rgba(79,70,229,0.3)">${btnMatch[1]}</a></div>`;
+          return;
+        }
+        
+        // Đoạn văn bình thường
+        out += `<p style="margin:0 0 10px 0;color:#334155;font-size:14px;line-height:1.6;">${trimLine}</p>`;
       });
+
       return out;
     }
 
     function buildFinalHtml(subject, headerStr, colorHex, rawBody, useContact, usePortal, userEmail, userOrder, userNick) {
       let bodyHtml = parseContent(rawBody, userEmail, userOrder, userNick);
       
+      let portalBlock = usePortal ? `
+        <div style="text-align:center;margin:24px 0;">
+          <a href="${PORTAL_URL}" style="background:#1e293b;color:white;padding:14px 20px;border-radius:10px;text-decoration:none;font-weight:900;display:inline-block;width:100%;box-sizing:border-box;font-size:14px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">TRUY CẬP CỔNG KHÁCH HÀNG</a>
+          <p style="font-size:12px;color:#64748b;margin-top:12px;line-height:1.5;">👉 Dùng <b>Mã Đơn Hàng</b> hoặc <b>Email</b> để tra cứu và lấy link VPN.</p>
+        </div>` : "";
+
+      // FIX: Bỏ in hoa text, đưa block Contact xuống dưới cùng
       let contactBlock = useContact ? `
-        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-top:24px;text-align:center;">
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-top:10px;text-align:center;">
           <p style="margin:0 0 12px 0;color:#475569;font-size:13px;font-weight:bold;">Cần hỗ trợ? Đội ngũ của chúng tôi sẵn sàng 24/24</p>
           <div style="display:block;width:100%;">
             <a href="https://zalo.me/0917678211" style="display:inline-block;width:46%;background:#0068ff;color:white;padding:10px 0;text-decoration:none;border-radius:8px;font-weight:bold;font-size:12px;box-sizing:border-box;">Chat Zalo</a>
@@ -238,16 +290,11 @@
           </div>
         </div>` : "";
 
-      let portalBlock = usePortal ? `
-        <div style="text-align:center;margin:24px 0;">
-          <a href="${PORTAL_URL}" style="background:#1e293b;color:white;padding:14px 20px;border-radius:10px;text-decoration:none;font-weight:900;display:inline-block;width:100%;box-sizing:border-box;font-size:14px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">TRUY CẬP CỔNG KHÁCH HÀNG</a>
-          <p style="font-size:12px;color:#64748b;margin-top:12px;line-height:1.5;">👉 Dùng <b>Mã Đơn Hàng</b> hoặc <b>Email</b> để tra cứu và lấy link VPN.</p>
-        </div>` : "";
-
+      // FIX: Chữ Header không bị rớt dòng (chỉnh font-size và bỏ letter-spacing thừa)
       return `
         <div style="font-family:sans-serif;width:100%;max-width:500px;margin:auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-sizing:border-box;">
-          <div style="background:${colorHex};padding:24px 20px;text-align:center;">
-            <h2 style="color:white;margin:0;font-size:20px;text-transform:uppercase;font-weight:900;letter-spacing:1px;">${headerStr}</h2>
+          <div style="background:${colorHex};padding:20px 15px;text-align:center;">
+            <h2 style="color:white;margin:0;font-size:18px;text-transform:uppercase;font-weight:900;line-height:1.4;">${headerStr}</h2>
           </div>
           <div style="padding:24px 20px;box-sizing:border-box;">
             ${bodyHtml}
@@ -270,7 +317,9 @@
       document.getElementById("activeTplName").textContent = subj ? (subj.substring(0, 20) + "...") : "Chưa lưu";
     }
 
-    // --- TEMPLATES ---
+    // ==========================================
+    // 4. MẪU LƯU (TEMPLATES)
+    // ==========================================
     async function saveTemplate() {
       const tpl = {
         id: Date.now(),
@@ -286,13 +335,13 @@
       
       templatesDb.unshift(tpl);
       renderTemplates();
-      toast("Đã lưu mẫu nội bộ. Đang đồng bộ Cloud...");
+      toast("Đang đồng bộ Mẫu lên Cloud...");
       
-      // Gửi lên Cloud
       fetch(SCRIPT_URL, {
-        method: 'POST', mode: 'no-cors',
+        method: 'POST',
+        // Gửi body JSON thuần không dùng no-cors để đảm bảo UTF-8 an toàn
         body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb, null, 2), message: "Update templates" })
-      });
+      }).then(() => toast("Lưu Cloud thành công!"));
     }
 
     function renderTemplates() {
@@ -305,10 +354,6 @@
           <div class="p-4 flex-1">
             <h3 class="font-extrabold text-slate-800 text-sm truncate mb-1">${t.subj}</h3>
             <p class="text-xs font-mono text-slate-400 line-clamp-2 mb-3">${t.raw}</p>
-            <div class="flex items-center gap-2 text-[10px] font-bold text-slate-500 mb-4">
-              <span class="bg-slate-100 px-2 py-0.5 rounded">${t.usePortal ? 'Có Cổng KH' : 'Không Cổng'}</span>
-              <span class="bg-slate-100 px-2 py-0.5 rounded">${t.useContact ? 'Có Zalo' : 'Không Zalo'}</span>
-            </div>
             <div class="flex gap-2">
               <button onclick="useTemplate(${i})" class="flex-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white text-xs font-bold py-2 rounded-lg transition">Sử dụng</button>
               <button onclick="delTemplate(${i})" class="bg-red-50 text-red-500 hover:bg-red-500 hover:text-white px-3 rounded-lg transition"><i class="fas fa-trash"></i></button>
@@ -326,16 +371,17 @@
       document.getElementById("togContact").checked = t.useContact;
       document.getElementById("togPortal").checked = t.usePortal;
       document.querySelectorAll('input[name="colorTheme"]').forEach(r => { if(r.value === t.color) r.checked = true; });
-      updatePreview();
-      goTab('compose'); toast("Đã nạp mẫu!");
+      updatePreview(); goTab('compose'); toast("Đã nạp mẫu!");
     }
 
     function delTemplate(i) {
-      templatesDb.splice(i, 1); renderTemplates(); toast("Đã xóa!");
-      fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb), message: "Delete template" }) });
+      templatesDb.splice(i, 1); renderTemplates(); toast("Đang xóa Mẫu trên Cloud...");
+      fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb, null, 2), message: "Delete template" }) });
     }
 
-    // --- SMART PARSE TARGETS ---
+    // ==========================================
+    // 5. LƯU DANH SÁCH & BẮN MAIL
+    // ==========================================
     function parseDate(dateStr) {
       if(!dateStr) return null;
       const parts = dateStr.split('/');
@@ -347,53 +393,72 @@
       const raw = document.getElementById("rawTargets").value.trim();
       if(!raw) return toast("Ô dữ liệu trống!", "err");
       
-      parsedTargets = [];
       const today = new Date(); today.setHours(0,0,0,0);
+      let countAdded = 0;
 
-      // Cố gắng parse JSON trước
+      // Check xem email đã có trong danh sách chưa
+      const isExist = (email) => parsedTargets.some(t => t.email === email);
+
       try {
         const arr = JSON.parse(raw);
         if(Array.isArray(arr)) {
           arr.forEach(o => {
             if(o.status === "success" && o.email) {
               const exp = parseDate(o.expDate);
-              if(exp && exp >= today) {
-                parsedTargets.push({
-                  email: o.email.trim(),
-                  id: o.id || "N/A",
-                  nickname: o.nickname || "Bạn"
-                });
+              const cleanEmail = o.email.trim();
+              if(exp && exp >= today && !isExist(cleanEmail)) {
+                parsedTargets.push({ email: cleanEmail, id: o.id || "N/A", nickname: o.nickname || "Bạn" });
+                countAdded++;
               }
             }
           });
-          toast(`Đã lọc ra ${parsedTargets.length} đơn Active (còn HSD) từ JSON!`);
-          renderTargets();
-          return;
+          toast(`Đã thêm ${countAdded} đơn Active mới!`);
         }
       } catch (e) {
-        // Không phải JSON, xử lý dạng chuỗi cách dấu phẩy
+        // Fallback: Xử lý dạng phẩy
         const emails = raw.split(/[\n,]+/).map(e => e.trim()).filter(e => e.includes('@'));
         emails.forEach(e => {
-          parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn" });
+          if(!isExist(e)) {
+            parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn" });
+            countAdded++;
+          }
         });
-        toast(`Đã trích xuất ${parsedTargets.length} email thủ công!`);
+        toast(`Đã thêm ${countAdded} email mới thủ công!`);
+      }
+      
+      document.getElementById("rawTargets").value = "";
+      saveTargetsToLocal();
+      renderTargets();
+    }
+
+    // Lưu mảng vào LocalStorage để F5 không mất
+    function saveTargetsToLocal() {
+      localStorage.setItem('promoTargets', JSON.stringify(parsedTargets));
+    }
+    
+    // Nút Xóa trắng danh sách
+    function clearTargets() {
+      if(confirm("Bạn có chắc chắn muốn xóa sạch danh sách hiện tại?")) {
+        parsedTargets = [];
+        saveTargetsToLocal();
         renderTargets();
+        toast("Đã dọn sạch danh sách!");
       }
     }
 
     function renderTargets() {
       const list = document.getElementById("targetList");
       document.getElementById("countTargets").textContent = parsedTargets.length;
-      if(!parsedTargets.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold text-sm">Không tìm thấy khách hợp lệ.</div>`; return; }
+      if(!parsedTargets.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold text-sm">Chưa có dữ liệu. Hãy nhập và thêm ở cột bên trái.</div>`; return; }
       
       list.innerHTML = parsedTargets.map((t, i) => `
-        <label class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer transition">
-          <input type="checkbox" value="${i}" class="cb-target accent-indigo-600 w-4 h-4" checked onchange="updateSelectedCount()">
+        <label class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer transition border-b border-slate-50">
+          <input type="checkbox" value="${i}" class="cb-target accent-indigo-600 w-4 h-4" checked>
           <div class="flex-1 min-w-0">
             <div class="font-bold text-slate-800 text-sm truncate">${t.email}</div>
-            <div class="text-xs text-slate-500 flex gap-2 mt-0.5">
+            <div class="text-[10px] text-slate-500 flex gap-2 mt-0.5">
               <span class="font-mono text-indigo-500">${t.id}</span>
-              ${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 px-1.5 rounded text-slate-400">${t.nickname}</span>` : ''}
+              ${t.nickname && t.nickname !== 'Bạn' ? `<span class="bg-slate-100 px-1.5 rounded text-slate-400">${t.nickname}</span>` : ''}
             </div>
           </div>
         </label>
@@ -404,7 +469,6 @@
       document.querySelectorAll(".cb-target").forEach(cb => cb.checked = state);
     }
 
-    // --- SEND EMAIL ---
     async function executeSend() {
       const selectedIndexes = Array.from(document.querySelectorAll(".cb-target:checked")).map(cb => parseInt(cb.value));
       if(!selectedIndexes.length) return toast("Chưa chọn khách nào!", "err");
@@ -417,8 +481,8 @@
       const usePortal = document.getElementById("togPortal").checked;
 
       if(!subj || !raw) return toast("Chưa soạn xong nội dung mail!", "err");
-      if(!confirm(`Xác nhận bắn mail tới ${selectedIndexes.length} người?`)) return;
-
+      
+      // FIX: Bỏ popup hỏi han, cứ thế bắn
       const btn = document.getElementById("btnSendAll");
       btn.disabled = true;
       let successCount = 0;
@@ -427,13 +491,11 @@
         const target = parsedTargets[selectedIndexes[i]];
         btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi (${i+1}/${selectedIndexes.length})...`;
         
-        // Render mail riêng cho người này
         const htmlBody = buildFinalHtml(subj, head, color, raw, useContact, usePortal, target.email, target.id, target.nickname);
         
         try {
           await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors',
             body: JSON.stringify({
               action: "sendMail",
               to: target.email,
@@ -442,7 +504,7 @@
             })
           });
           successCount++;
-          await new Promise(r => setTimeout(r, 500)); // Delay tránh limit
+          await new Promise(r => setTimeout(r, 400));
         } catch (err) { console.error("Lỗi gửi:", target.email); }
       }
 
@@ -450,9 +512,6 @@
       btn.innerHTML = `<i class="fas fa-paper-plane mr-2"></i>BẮN MAIL HÀNG LOẠT`;
       btn.disabled = false;
     }
-
-    // Khởi tạo
-    updatePreview();
   </script>
 </body>
 </html>
