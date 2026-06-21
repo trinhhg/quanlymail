@@ -10,9 +10,8 @@
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', Arial, sans-serif; background: #f1f5f9; color: #0f172a; margin: 0; overflow-x: hidden; }
     
-    /* TOAST GÓC TRÁI */
     .toast { position: fixed; top: 4rem; left: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; pointer-events: none; }
-    .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.2); transform: translateX(-120%); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.2); transform: translateX(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .toast-item.show { transform: translateX(0); }
 
     .color-swatch { display: none; }
@@ -26,37 +25,32 @@
     input:checked + .toggle-slider { background: #4f46e5; }
     input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-    /* MOCKUP & SCROLL HIDDEN */
     .phone-shell { background: #1e293b; border-radius: 2.5rem; padding: 10px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3); width: 100%; max-width: 320px; height: 600px; margin: 0 auto; }
-    .phone-screen { background: #f8fafc; border-radius: 1.75rem; overflow-x: hidden; overflow-y: auto; height: 100%; display: flex; flex-direction: column; -ms-overflow-style: none; scrollbar-width: none; }
-    .phone-screen::-webkit-scrollbar { display: none; }
-
-    .mail-header-text { font-size: 1rem; text-transform: uppercase; font-weight: 900; line-height: 1.3; padding: 0; margin: 0; color: white; word-wrap: break-word; }
+    .phone-screen { background: #f8fafc; border-radius: 1.75rem; overflow-x: hidden; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     .tab-btn { padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #64748b; transition: all 0.2s; white-space: nowrap; cursor: pointer; }
     .tab-btn.active { background: #4f46e5; color: white; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
 
-    /* SUB-TAB */
     .sub-tab-btn { padding: 4px 14px; font-size: 12px; font-weight: 800; border-radius: 6px; cursor: pointer; color: #64748b; transition: 0.2s; }
     .sub-tab-btn.active { background: #fff; color: #4f46e5; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-    /* THUMBNAIL CHO MẪU LƯU (Cuộn được trong khung mini) */
     .tpl-card { transition: all 0.2s; }
     .tpl-selected { transform: translateY(-4px); border-color: #4f46e5 !important; box-shadow: 0 12px 24px rgba(79,70,229,0.25); border-width: 2px; }
-    .tpl-dimmed { opacity: 0.6; filter: grayscale(30%); }
-    .mini-phone-shell { background: #1e293b; border-radius: 1.2rem; padding: 6px; width: 100%; height: 260px; }
-    .mini-phone-screen { background: #f8fafc; border-radius: 0.8rem; overflow-y: auto; height: 100%; -ms-overflow-style: none; scrollbar-width: none; font-size: 8px; }
-    .mini-phone-screen::-webkit-scrollbar { display: none; }
-    .mini-phone-screen img { max-width: 100%; height: auto; }
 
-    /* TERMINAL LOG WORKFLOW */
-    .terminal-log { background: #0f172a; color: #4ade80; font-family: monospace; font-size: 11px; padding: 10px; border-radius: 8px; height: 120px; overflow-y: auto; }
+    /* MOCKUP MINI CỦA MẪU LƯU */
+    .mini-mockup { border: 6px solid #1e293b; border-radius: 1.5rem; background: #fff; width: 100%; height: 280px; overflow: hidden; position: relative; margin: 0 auto; }
+    .mini-mockup-screen { width: 100%; height: 100%; overflow-y: auto; background: #f8fafc; }
+
+    .terminal-log { background: #0f172a; color: #4ade80; font-family: monospace; font-size: 12px; padding: 12px; border-radius: 8px; height: 260px; overflow-y: auto; }
     
-    /* BẢNG KHÁCH HÀNG */
-    .table-container { overflow-x: auto; }
-    table { width: 100%; text-align: left; border-collapse: collapse; font-size: 12px; }
-    th { background: #f1f5f9; padding: 10px; color: #475569; font-weight: 800; position: sticky; top: 0; z-index: 10; }
-    td { padding: 10px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    /* BẢNG KHÁCH HÀNG: CĂN BẢN VÀ CHỮ LỚN HƠN */
+    .table-container { overflow-x: auto; max-width: 100%; }
+    table { width: 100%; text-align: left; border-collapse: collapse; white-space: nowrap; }
+    th { background: #f1f5f9; padding: 8px 12px; color: #475569; font-weight: 800; position: sticky; top: 0; z-index: 10; font-size: 13px; }
+    td { padding: 6px 12px; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 13px; }
+    @media (min-width: 768px) { th, td { font-size: 14px; } }
     tr:hover td { background: #f8fafc; }
   </style>
 </head>
@@ -118,7 +112,7 @@
               <button onclick="insText('\n[BTN]TÊN_NÚT|link_vao_day[/BTN]')" class="px-3 py-1.5 text-blue-700 bg-blue-50 border border-blue-200 rounded text-xs font-bold hover:bg-blue-100 shadow-sm"><i class="fas fa-link mr-1"></i>Nút</button>
               <button onclick="insText('\n[IMG]link_anh_vao_day[/IMG]')" class="px-3 py-1.5 text-pink-700 bg-pink-50 border border-pink-200 rounded text-xs font-bold hover:bg-pink-100 shadow-sm"><i class="fas fa-image mr-1"></i>Ảnh</button>
             </div>
-            <textarea id="mailRaw" oninput="updatePreview()" rows="12" class="w-full p-4 focus:outline-none text-slate-800 text-sm leading-relaxed" style="font-family: 'Plus Jakarta Sans', sans-serif;" placeholder="Soạn nội dung tại đây..."></textarea>
+            <textarea id="mailRaw" oninput="updatePreview()" rows="12" class="w-full p-4 focus:outline-none text-slate-800 text-sm leading-relaxed" placeholder="Soạn nội dung tại đây..."></textarea>
           </div>
 
           <div class="grid grid-cols-2 gap-4 mt-4">
@@ -137,7 +131,7 @@
       <div class="xl:col-span-4 flex justify-center mt-4 xl:mt-0">
         <div class="sticky top-16 w-full">
           <div class="phone-shell relative">
-            <div class="phone-screen">
+            <div class="phone-screen no-scrollbar">
               <div class="bg-white p-3 border-b border-slate-100 shadow-sm shrink-0">
                 <div class="text-[12px] font-black text-slate-800 truncate" id="previewSubj">Tiêu đề email...</div>
                 <div class="text-[10px] text-slate-400 mt-0.5">Từ: VPN Trinh Hg</div>
@@ -159,24 +153,24 @@
       </div>
 
       <div id="sub-tab-templates">
-        <div id="gridTemplates" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+        <div id="gridTemplates" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5"></div>
       </div>
 
       <div id="sub-tab-send" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-4">
-        <div class="lg:col-span-4 space-y-4">
+        <div class="lg:col-span-5 space-y-4">
           <div class="bg-gradient-to-br from-indigo-600 to-purple-700 p-5 rounded-2xl shadow-md text-white text-center flex flex-col">
             <h3 class="font-black text-lg mb-1 uppercase tracking-wide">Xác Nhận Gửi</h3>
             <p class="text-xs text-indigo-200 mb-4">Mẫu: <span id="activeTplName" class="font-bold text-white block truncate">Chưa chọn mẫu</span></p>
             <button id="btnSendAll" onclick="executeSend()" class="w-full bg-white text-indigo-700 font-black py-3.5 rounded-xl shadow hover:shadow-lg transition text-sm uppercase"><i class="fas fa-paper-plane mr-2"></i>Bắn Mail Hàng Loạt</button>
           </div>
-          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-48">
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
             <div class="px-3 py-2 bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center"><i class="fas fa-terminal mr-2"></i>Workflow Log</div>
             <div id="workflowLog" class="terminal-log flex-1">...Sẵn sàng...</div>
           </div>
         </div>
 
-        <div class="lg:col-span-8 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-[400px] lg:h-auto min-h-[400px]">
-          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50">
+        <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-[500px] lg:h-auto min-h-[500px]">
+          <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50 shrink-0">
             <div class="font-bold text-sm text-slate-700">Tích chọn Gửi <span id="countSelected" class="ml-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-black">0</span></div>
             <div class="flex gap-3">
               <button onclick="tickAllSend(true)" class="text-xs font-bold text-indigo-600 hover:underline">Chọn hết</button>
@@ -184,7 +178,7 @@
             </div>
           </div>
           <div class="table-container flex-1">
-            <table class="w-full">
+            <table>
               <thead><tr><th class="w-10 text-center"><i class="fas fa-check-square"></i></th><th>Email</th><th>Nickname</th><th>Mã Đơn</th></tr></thead>
               <tbody id="sendTableBody"></tbody>
             </table>
@@ -194,14 +188,14 @@
     </div>
 
     <div id="tab-targets" class="hidden grid grid-cols-1 lg:grid-cols-10 gap-4">
-      <div class="lg:col-span-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[500px]">
+      <div class="lg:col-span-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[550px]">
         <h2 class="font-black text-slate-800 text-sm uppercase mb-2"><i class="fas fa-user-plus mr-1.5 text-indigo-500"></i>Nhập Dữ Liệu</h2>
-        <p class="text-[10px] text-slate-500 mb-3 leading-relaxed">Dán chuỗi email ngăn cách phẩy HOẶC dán toàn bộ JSON KV. Hệ thống tự lọc đơn còn Hạn và cộng dồn.</p>
+        <p class="text-[11px] text-slate-500 mb-3 leading-relaxed">Dán chuỗi email ngăn cách phẩy HOẶC dán JSON KV. Lọc đơn còn Hạn và mặc định <b class="text-red-500">BỎ TICK</b> gửi.</p>
         <textarea id="rawTargets" class="flex-1 w-full p-3 border border-slate-200 rounded-xl text-xs font-mono bg-slate-50 focus:border-indigo-500 outline-none resize-none mb-3" placeholder="a@gmail.com, b@...&#10;HOẶC dán JSON..."></textarea>
         <button onclick="parseTargets()" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl hover:bg-green-600 transition shadow-sm text-sm"><i class="fas fa-filter mr-1.5"></i>Lọc & Thêm Khách</button>
       </div>
 
-      <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[500px] overflow-hidden">
+      <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[550px] overflow-hidden">
         <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50 shrink-0">
           <div class="font-bold text-sm text-slate-700">Danh Sách Quản Lý <span id="countTargets" class="ml-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-black">0</span></div>
           <div class="flex gap-2">
@@ -210,7 +204,7 @@
           </div>
         </div>
         <div class="table-container flex-1 bg-white">
-          <table class="w-full">
+          <table>
             <thead>
               <tr>
                 <th class="w-10 text-center"><input type="checkbox" onclick="tickAllTargets(this.checked)" class="accent-indigo-600 w-4 h-4"></th>
@@ -233,7 +227,7 @@
           <button onclick="clearLogs()" class="text-xs font-bold text-red-500 hover:underline">Xóa Lịch Sử</button>
         </div>
         <div class="table-container max-h-[600px]">
-          <table class="w-full whitespace-nowrap">
+          <table>
             <thead>
               <tr>
                 <th class="w-10 text-center">STT</th>
@@ -253,10 +247,7 @@
   </main>
 
   <script>
-    // ==========================================
-    // 1. CẤU HÌNH API
-    // ==========================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJ55tH_fTv3kuukp0cKO6ZcEekU0aeWJ0hzXhYyw6ONGLji5-SG-LJbIFcpUtQ-tWS/exec"; // THAY LINK APP SCRIPT VÀO ĐÂY
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzaKh__GZoKMWxMW83VDIwo6fzeAq5gJYjfP3mfATEs8NCy-oXBMhsS9-AS56Uq7XU/exec"; 
     const PORTAL_URL = "https://vpntrinhhg.pages.dev";
     const BASE_RAW = "https://raw.githubusercontent.com/trinhhg/quanlymail/main"; 
     
@@ -267,9 +258,6 @@
     let editingTplId = null;
     let activeTemplateIndex = null;
 
-    // ==========================================
-    // 2. KHỞI TẠO & LƯU TRẠNG THÁI TAB
-    // ==========================================
     window.onload = () => {
       loadDataFromCloud();
       updatePreview();
@@ -307,9 +295,6 @@
       });
     }
 
-    // ==========================================
-    // 3. API GITHUB CLOUD
-    // ==========================================
     async function loadDataFromCloud() {
       try { const r = await fetch(`${BASE_RAW}/templates.json?t=${Date.now()}`); if(r.ok) templatesDb = await r.json(); } catch(e){}
       try { const r = await fetch(`${BASE_RAW}/targets.json?t=${Date.now()}`); if(r.ok) { parsedTargets = await r.json(); ensureSelectedState(); } } catch(e){}
@@ -318,22 +303,19 @@
       renderTemplates(); renderTargetTable(); renderSendTable(); renderLogs();
     }
 
-    // Đảm bảo target luôn có trường selected
     function ensureSelectedState() {
-      parsedTargets.forEach(t => { if(t.selected === undefined) t.selected = true; });
+      parsedTargets.forEach(t => { if(t.selected === undefined) t.selected = false; });
     }
 
     async function apiCommit(path, data, msg) {
-      // Gửi raw JSON để tránh CORS preflight bị chặn
+      // Ép kiểu charset utf-8 để GAS không làm hỏng Emoji khi lưu file
       return fetch(SCRIPT_URL, {
         method: 'POST',
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({ action: "commitData", path: path, content: JSON.stringify(data, null, 2), message: msg })
       });
     }
 
-    // ==========================================
-    // 4. LOGIC SOẠN MAIL & PREVIEW
-    // ==========================================
     function insText(t) {
       const ta = document.getElementById("mailRaw"); const s = ta.selectionStart;
       ta.value = ta.value.slice(0,s) + t + ta.value.slice(ta.selectionEnd);
@@ -371,7 +353,7 @@
 
       let contactBlock = useContact ? `<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-top:10px;text-align:center;"><p style="margin:0 0 12px 0;color:#475569;font-size:13px;font-weight:bold;">Cần hỗ trợ? Đội ngũ của chúng tôi sẵn sàng 24/24</p><div style="display:block;width:100%;"><a href="https://zalo.me/0917678211" style="display:inline-block;width:46%;background:#0068ff;color:white;padding:10px 0;text-decoration:none;border-radius:8px;font-weight:bold;font-size:12px;box-sizing:border-box;">Chat Zalo</a><a href="https://www.facebook.com/trinh.hg.57" style="display:inline-block;width:46%;background:#0668E1;color:white;padding:10px 0;text-decoration:none;border-radius:8px;font-weight:bold;font-size:12px;margin-left:4%;box-sizing:border-box;">Messenger</a></div></div>` : "";
 
-      return `<div style="font-family:'Plus Jakarta Sans', Arial, sans-serif;width:100%;max-width:500px;margin:auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-sizing:border-box;"><div style="background:${colorHex};padding:15px 10px;text-align:center;"><p class="mail-header-text">${headerStr}</p></div><div style="padding:20px;box-sizing:border-box;">${bodyHtml}${portalBlock}${contactBlock}</div></div>`;
+      return `<div style="font-family:'Plus Jakarta Sans', Arial, sans-serif;width:100%;max-width:500px;margin:auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-sizing:border-box;"><div style="background:${colorHex};padding:15px 10px;text-align:center;"><p style="font-size:17px;text-transform:uppercase;font-weight:900;margin:0;color:white;line-height:1.4;text-align:center;word-wrap:break-word;">${headerStr}</p></div><div style="padding:20px;box-sizing:border-box;">${bodyHtml}${portalBlock}${contactBlock}</div></div>`;
     }
 
     function updatePreview() {
@@ -386,9 +368,6 @@
       document.getElementById("previewPane").innerHTML = buildFinalHtml(subj, head, color, raw, useContact, usePortal);
     }
 
-    // ==========================================
-    // 5. QUẢN LÝ MẪU (LƯU & XÓA)
-    // ==========================================
     async function saveTemplate() {
       const subj = document.getElementById("mailSubj").value.trim();
       const head = document.getElementById("mailHead").value.trim();
@@ -437,7 +416,6 @@
     function selectTpl(i) {
       activeTemplateIndex = i; renderTemplates();
       document.getElementById("activeTplName").textContent = templatesDb[i].subj;
-      goSubTab('send'); toast("Đã chọn mẫu, hãy kiểm tra danh sách và gửi!");
     }
 
     function delTpl(i) {
@@ -453,28 +431,25 @@
       grid.innerHTML = templatesDb.map((t, i) => {
         let miniHtml = buildFinalHtml(t.subj, t.head, t.color, t.raw, t.useContact, t.usePortal);
         let isSelected = activeTemplateIndex === i;
-        let cardClass = isSelected ? "tpl-selected" : (activeTemplateIndex !== null ? "tpl-dimmed" : "");
+        let cardClass = isSelected ? "tpl-selected" : "";
         
         return `
         <div class="tpl-card bg-white border border-slate-200 rounded-2xl flex flex-col overflow-hidden ${cardClass}">
-          <div class="mini-phone-shell relative mx-auto mt-2">
-            <div class="mini-phone-screen p-1"><div class="mini-preview-wrap" style="height:auto;border:none;"><div class="mini-preview-scale" style="transform:scale(0.35);margin-left:-90%;width:280%;">${miniHtml}</div></div></div>
+          <div class="p-3 bg-slate-100 border-b border-slate-200">
+            <div class="mini-mockup"><div class="mini-mockup-screen no-scrollbar text-[11px]">${miniHtml}</div></div>
           </div>
-          <div class="p-3 bg-white flex flex-col justify-between flex-1 border-t border-slate-100 mt-2">
-            <h3 class="font-bold text-slate-800 text-[13px] line-clamp-2 mb-3 leading-tight">${t.subj}</h3>
-            <div class="flex gap-1.5">
-              <button onclick="selectTpl(${i})" class="flex-1 ${isSelected ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-700'} font-bold py-1.5 rounded-lg text-[10px] uppercase transition shadow-sm">${isSelected ? 'Đang Chọn' : 'Sử dụng'}</button>
-              <button onclick="editTpl(${i})" class="bg-amber-50 text-amber-600 border border-amber-100 hover:bg-amber-500 hover:text-white px-2.5 rounded-lg transition shadow-sm"><i class="fas fa-pen"></i></button>
-              <button onclick="delTpl(${i})" class="bg-red-50 text-red-500 border border-red-100 hover:bg-red-500 hover:text-white px-2.5 rounded-lg transition shadow-sm"><i class="fas fa-trash"></i></button>
+          <div class="p-4 bg-white flex flex-col justify-between flex-1 mt-1">
+            <h3 class="font-bold text-slate-800 text-[14px] line-clamp-2 mb-4 leading-tight">${t.subj}</h3>
+            <div class="flex gap-2">
+              <button onclick="selectTpl(${i})" class="flex-1 ${isSelected ? 'bg-indigo-600 text-white shadow-md' : 'bg-indigo-50 text-indigo-700'} font-bold py-2 rounded-lg text-[11px] uppercase transition">${isSelected ? 'Đang Chọn' : 'Sử dụng'}</button>
+              <button onclick="editTpl(${i})" class="bg-amber-50 text-amber-600 border border-amber-100 hover:bg-amber-500 hover:text-white px-3 rounded-lg transition"><i class="fas fa-pen"></i></button>
+              <button onclick="delTpl(${i})" class="bg-red-50 text-red-500 border border-red-100 hover:bg-red-500 hover:text-white px-3 rounded-lg transition"><i class="fas fa-trash"></i></button>
             </div>
           </div>
         </div>
       `}).join('');
     }
 
-    // ==========================================
-    // 6. QUẢN LÝ KHÁCH HÀNG (ADD/TABLE)
-    // ==========================================
     function parseDate(dateStr) {
       if(!dateStr) return null; const p = dateStr.split('/');
       if(p.length !== 3) return null; return new Date(p[2], p[1]-1, p[0]);
@@ -495,7 +470,8 @@
             if(o.status === "success" && o.email) {
               const exp = parseDate(o.expDate); const cleanEmail = o.email.trim();
               if(exp && exp >= today && !isExist(cleanEmail)) {
-                parsedTargets.push({ email: cleanEmail, id: o.id || "N/A", nickname: o.nickname || "Bạn", selected: true }); countAdded++;
+                // Tích chọn FALSE mặc định
+                parsedTargets.push({ email: cleanEmail, id: o.id || "N/A", nickname: o.nickname || "Bạn", selected: false }); countAdded++;
               }
             }
           });
@@ -503,7 +479,7 @@
       } catch (e) {
         const emails = raw.split(/[\n,]+/).map(e => e.trim()).filter(e => e.includes('@'));
         emails.forEach(e => {
-          if(!isExist(e)) { parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn", selected: true }); countAdded++; }
+          if(!isExist(e)) { parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn", selected: false }); countAdded++; }
         });
       }
       
@@ -517,7 +493,7 @@
 
     function toggleTarget(i) {
       parsedTargets[i].selected = !parsedTargets[i].selected;
-      renderSendTable(); renderTargetTable(); // Update cả 2 nơi
+      renderSendTable(); renderTargetTable(); 
     }
 
     function tickAllTargets(state) {
@@ -560,8 +536,8 @@
         <tr>
           <td class="text-center"><input type="checkbox" class="accent-indigo-600 w-4 h-4" ${t.selected ? 'checked' : ''} onchange="toggleTarget(${i})"></td>
           <td class="font-bold">${t.email}</td>
-          <td>${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[10px] font-bold">${t.nickname}</span>` : '<span class="text-slate-300 italic text-[10px]">Bạn</span>'}</td>
-          <td class="font-mono text-indigo-500 text-[10px]">${t.id}</td>
+          <td>${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 text-slate-500 px-2 py-1 rounded text-xs font-bold">${t.nickname}</span>` : '<span class="text-slate-300 italic text-xs">Bạn</span>'}</td>
+          <td class="font-mono text-indigo-500 text-xs">${t.id}</td>
           <td class="text-center"><button onclick="delTarget(${i})" class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button></td>
         </tr>
       `).join('');
@@ -577,19 +553,16 @@
         <tr>
           <td class="text-center"><input type="checkbox" class="cb-target accent-indigo-600 w-4 h-4" value="${i}" ${t.selected ? 'checked' : ''} onchange="toggleTarget(${i})"></td>
           <td class="font-bold ${t.selected ? 'text-slate-800' : 'text-slate-400 line-through'}">${t.email}</td>
-          <td>${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded text-[10px] font-bold">${t.nickname}</span>` : ''}</td>
-          <td class="font-mono text-indigo-500 text-[10px]">${t.id}</td>
+          <td>${t.nickname !== 'Bạn' ? `<span class="bg-slate-100 text-slate-500 px-2 py-1 rounded text-xs font-bold">${t.nickname}</span>` : ''}</td>
+          <td class="font-mono text-indigo-500 text-xs">${t.id}</td>
         </tr>
       `).join('');
     }
 
-    // ==========================================
-    // 7. GỬI MAIL & LOGS
-    // ==========================================
     function logToTerminal(msg, type="info") {
       const term = document.getElementById("workflowLog");
       const color = type === 'success' ? '#4ade80' : (type === 'error' ? '#f87171' : '#94a3b8');
-      term.innerHTML += `<div style="color:${color}">> ${msg}</div>`;
+      term.innerHTML += `<div style="color:${color}; margin-bottom: 4px;">> ${msg}</div>`;
       term.scrollTop = term.scrollHeight;
     }
 
@@ -621,8 +594,10 @@
         const htmlBody = buildFinalHtml(t.subj, t.head, t.color, t.raw, t.useContact, t.usePortal, target.email, target.id, target.nickname);
         
         try {
+          // Gửi data kèm Headers UTF-8
           await fetch(SCRIPT_URL, {
             method: 'POST',
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({ action: "sendMail", to: target.email, subject: t.subj, html: htmlBody })
           });
           successCount++;
@@ -649,7 +624,7 @@
     function renderLogs() {
       const tbody = document.getElementById("logTableBody");
       if(!logsDb.length) { tbody.innerHTML = `<tr><td colspan="6" class="text-center p-6 text-slate-400 font-bold">Chưa có lịch sử</td></tr>`; return; }
-      tbody.innerHTML = logsDb.map((l, i) => `<tr><td class="text-center font-bold text-slate-400">${i+1}</td><td class="font-bold text-indigo-600">${l.type}</td><td>${l.email}</td><td class="font-mono text-xs text-slate-500">${l.order}</td><td>${l.nick !== 'Bạn' ? `<span class="bg-slate-100 px-1.5 rounded text-[10px]">${l.nick}</span>`:''}</td><td class="text-xs text-slate-400">${l.time}</td></tr>`).join('');
+      tbody.innerHTML = logsDb.map((l, i) => `<tr><td class="text-center font-bold text-slate-400">${i+1}</td><td class="font-bold text-indigo-600">${l.type}</td><td class="font-bold">${l.email}</td><td class="font-mono text-xs text-slate-500">${l.order}</td><td>${l.nick !== 'Bạn' ? `<span class="bg-slate-100 px-2 py-1 rounded text-xs">${l.nick}</span>`:''}</td><td class="text-xs text-slate-400">${l.time}</td></tr>`).join('');
     }
 
     function clearLogs() {
