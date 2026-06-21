@@ -8,204 +8,191 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #0f172a; margin: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f1f5f9; color: #0f172a; margin: 0; }
     
-    .toast { position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; pointer-events: none; }
-    .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.1); transform: translateX(120%); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .toast-item.show { transform: translateX(0); }
+    /* Chuyển Toast xuống góc dưới để không che menu */
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; pointer-events: none; }
+    .toast-item { padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.85rem; color: #fff; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0,0,0,.2); transform: translateY(120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .toast-item.show { transform: translateY(0); }
 
     .color-swatch { display: none; }
-    .color-swatch + label { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-    .color-swatch:checked + label { border-color: #0f172a; transform: scale(1.15); }
-    .color-swatch + label::after { content: '✓'; color: white; font-size: 14px; font-weight: 900; opacity: 0; }
-    .color-swatch:checked + label::after { opacity: 1; }
-
-    .toggle-wrap { position: relative; width: 44px; height: 24px; display: inline-block; }
-    .toggle-wrap input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #cbd5e1; border-radius: 24px; transition: 0.3s; }
-    .toggle-slider::before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
-    input:checked + .toggle-slider { background: #4f46e5; }
-    input:checked + .toggle-slider::before { transform: translateX(20px); }
-
-    .phone-shell { background: #1e293b; border-radius: 2.5rem; padding: 12px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3); width: 320px; height: 600px; margin: 0 auto; }
-    .phone-screen { background: #f8fafc; border-radius: 1.75rem; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
+    .color-swatch + label { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: all 0.15s; }
+    .color-swatch:checked + label { border-color: #0f172a; transform: scale(1.2); }
     
-    .tab-btn.active { background: #4f46e5; color: white; border-color: #4f46e5; }
+    .toggle-wrap { position: relative; width: 40px; height: 22px; display: inline-block; }
+    .toggle-wrap input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #cbd5e1; border-radius: 22px; transition: 0.3s; }
+    .toggle-slider::before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+    input:checked + .toggle-slider { background: #4f46e5; }
+    input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+    .phone-shell { background: #1e293b; border-radius: 2.5rem; padding: 10px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3); width: 100%; max-width: 320px; height: 620px; margin: 0 auto; }
+    .phone-screen { background: #f8fafc; border-radius: 1.75rem; overflow-x: hidden; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
+    
+    /* Ép Header mail dài luôn nằm 1 dòng hoặc bóp gọn nhất có thể */
+    .mail-header-text { font-size: 1.1rem; text-transform: uppercase; font-weight: 900; line-height: 1.2; padding: 0 10px; margin: 0; color: white; word-wrap: break-word; }
+
+    .tab-btn { padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #64748b; transition: all 0.2s; white-space: nowrap; }
+    .tab-btn.active { background: #4f46e5; color: white; box-shadow: 0 2px 8px rgba(79,70,229,0.3); }
+
+    /* Scale mini preview cho Mẫu Lưu */
+    .mini-preview-wrap { width: 100%; height: 180px; overflow: hidden; position: relative; background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 1rem 1rem 0 0; }
+    .mini-preview-scale { transform: scale(0.65); transform-origin: top center; width: 150%; margin-left: -25%; pointer-events: none; }
   </style>
 </head>
-<body class="pb-20">
+<body class="pb-10">
   <div id="toastBox" class="toast"></div>
 
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-xl font-extrabold text-indigo-600 flex items-center"><i class="fas fa-paper-plane mr-2 text-pink-500"></i>Promo Mailer</h1>
-      <div class="flex bg-slate-100 p-1 rounded-xl">
-        <button onclick="goTab('compose')" id="btn-compose" class="tab-btn active px-4 py-1.5 text-sm font-bold rounded-lg text-slate-600 transition"><i class="fas fa-pen-nib mr-1.5"></i>Soạn Mail</button>
-        <button onclick="goTab('templates')" id="btn-templates" class="tab-btn px-4 py-1.5 text-sm font-bold rounded-lg text-slate-600 transition"><i class="fas fa-folder-open mr-1.5"></i>Mẫu Lưu</button>
-        <button onclick="goTab('targets')" id="btn-targets" class="tab-btn px-4 py-1.5 text-sm font-bold rounded-lg text-slate-600 transition"><i class="fas fa-users mr-1.5"></i>Gửi Mail</button>
+    <div class="max-w-6xl mx-auto px-3 py-2 flex justify-between items-center overflow-x-auto gap-4">
+      <h1 class="text-lg font-extrabold text-indigo-600 flex items-center shrink-0"><i class="fas fa-paper-plane mr-2 text-pink-500"></i>PromoMailer</h1>
+      <div class="flex bg-slate-100 p-1 rounded-xl shrink-0">
+        <button onclick="goTab('workspace')" id="btn-workspace" class="tab-btn active"><i class="fas fa-rocket mr-1.5"></i>Chiến Dịch</button>
+        <button onclick="goTab('templates')" id="btn-templates" class="tab-btn"><i class="fas fa-folder-open mr-1.5"></i>Mẫu Lưu</button>
       </div>
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto p-4 mt-4">
-    <div id="tab-compose" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div class="space-y-4">
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Tiêu đề (Subject)</label>
-            <input type="text" id="mailSubj" placeholder="🔥 Khuyến mãi đặc biệt..." class="w-full p-3 border border-slate-200 rounded-xl font-bold bg-slate-50 focus:border-indigo-500 outline-none transition" onkeyup="updatePreview()">
+  <main class="max-w-6xl mx-auto p-3 mt-2">
+    <div id="tab-workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      
+      <div class="lg:col-span-7 space-y-5">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex justify-between items-center mb-3">
+            <h2 class="font-black text-slate-800 text-sm uppercase"><i class="fas fa-pen-nib mr-1.5 text-indigo-500"></i>Nội Dung Mail</h2>
+            <button onclick="saveTemplate()" class="bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition"><i class="fas fa-save mr-1"></i>Lưu Mẫu</button>
           </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5">Header Text</label>
-            <input type="text" id="mailHead" placeholder="THÔNG BÁO QUAN TRỌNG" class="w-full p-3 border border-slate-200 rounded-xl font-bold bg-slate-50 focus:border-indigo-500 outline-none transition" onkeyup="updatePreview()">
+          
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div><input type="text" id="mailSubj" placeholder="Tiêu đề Email..." class="w-full p-2.5 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 focus:border-indigo-500 outline-none" onkeyup="updatePreview()"></div>
+            <div><input type="text" id="mailHead" placeholder="Chữ Header (Căn giữa)" class="w-full p-2.5 border border-slate-200 rounded-xl text-sm font-bold bg-slate-50 focus:border-indigo-500 outline-none" onkeyup="updatePreview()"></div>
           </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Màu Gradient Header</label>
-            <div class="flex gap-2 flex-wrap">
+
+          <div class="mb-3 flex items-center gap-2">
+            <span class="text-[10px] font-bold text-slate-400 uppercase">Màu:</span>
+            <div class="flex gap-1.5 flex-wrap">
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #2563eb, #3b82f6)" id="cBlue" class="color-swatch" checked onchange="updatePreview()"><label for="cBlue" style="background:linear-gradient(135deg, #2563eb, #3b82f6)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #16a34a, #22c55e)" id="cGreen" class="color-swatch" onchange="updatePreview()"><label for="cGreen" style="background:linear-gradient(135deg, #16a34a, #22c55e)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #dc2626, #ef4444)" id="cRed" class="color-swatch" onchange="updatePreview()"><label for="cRed" style="background:linear-gradient(135deg, #dc2626, #ef4444)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #ca8a04, #eab308)" id="cGold" class="color-swatch" onchange="updatePreview()"><label for="cGold" style="background:linear-gradient(135deg, #ca8a04, #eab308)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #db2777, #f43f5e)" id="cPink" class="color-swatch" onchange="updatePreview()"><label for="cPink" style="background:linear-gradient(135deg, #db2777, #f43f5e)"></label>
-              <input type="radio" name="colorTheme" value="linear-gradient(135deg, #7c3aed, #8b5cf6)" id="cViolet" class="color-swatch" onchange="updatePreview()"><label for="cViolet" style="background:linear-gradient(135deg, #7c3aed, #8b5cf6)"></label>
-              <input type="radio" name="colorTheme" value="linear-gradient(135deg, #475569, #64748b)" id="cSlate" class="color-swatch" onchange="updatePreview()"><label for="cSlate" style="background:linear-gradient(135deg, #475569, #64748b)"></label>
               <input type="radio" name="colorTheme" value="linear-gradient(135deg, #0f172a, #1e293b)" id="cDark" class="color-swatch" onchange="updatePreview()"><label for="cDark" style="background:linear-gradient(135deg, #0f172a, #1e293b)"></label>
             </div>
           </div>
           
           <div class="border border-slate-200 rounded-xl overflow-hidden">
-            <div class="bg-slate-50 border-b border-slate-200 p-2 flex flex-wrap gap-1.5 items-center">
-              <button onclick="insText('[B]In đậm[/B]')" class="px-2 py-1 bg-white border rounded text-xs font-bold hover:bg-slate-100">B</button>
-              <button onclick="insText('[I]In nghiêng[/I]')" class="px-2 py-1 bg-white border rounded text-xs italic hover:bg-slate-100">I</button>
+            <div class="bg-slate-50 border-b border-slate-200 p-1.5 flex flex-wrap gap-1 items-center">
+              <button onclick="insText('[B]In_đậm[/B]')" class="px-2 py-1 bg-white border rounded text-xs font-bold hover:bg-slate-100">B</button>
+              <button onclick="insText('[I]In_nghiêng[/I]')" class="px-2 py-1 bg-white border rounded text-xs italic hover:bg-slate-100">I</button>
               <div class="w-px h-4 bg-slate-300 mx-1"></div>
-              <button onclick="insText('{Email}')" class="px-2 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{Email}</button>
-              <button onclick="insText('{MaDon}')" class="px-2 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{Mã Đơn}</button>
-              <button onclick="insText('{Nickname}')" class="px-2 py-1 bg-indigo-50 border border-indigo-100 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{Tên}</button>
+              <button onclick="insText('{Email}')" class="px-1.5 py-1 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{Email}</button>
+              <button onclick="insText('{MaDon}')" class="px-1.5 py-1 text-indigo-600 rounded text-xs font-bold hover:bg-indigo-100">{MãĐơn}</button>
               <div class="w-px h-4 bg-slate-300 mx-1"></div>
-              <button onclick="insText('\n[BTN] TẢI VỀ | https://...')" class="px-2 py-1 bg-blue-50 text-blue-600 border border-blue-100 rounded text-xs font-bold hover:bg-blue-100"><i class="fas fa-link mr-1"></i>Nút</button>
-              <button onclick="insText('\n[IMG] https://...')" class="px-2 py-1 bg-pink-50 text-pink-600 border border-pink-100 rounded text-xs font-bold hover:bg-pink-100"><i class="fas fa-image mr-1"></i>Ảnh</button>
+              <button onclick="insText('\n[BTN]TÊN_NÚT|https://link_vao_day.com[/BTN]')" class="px-1.5 py-1 text-blue-600 rounded text-xs font-bold hover:bg-blue-100"><i class="fas fa-link mr-1"></i>Nút</button>
+              <button onclick="insText('\n[IMG]https://link_anh_vao_day.jpg[/IMG]')" class="px-1.5 py-1 text-pink-600 rounded text-xs font-bold hover:bg-pink-100"><i class="fas fa-image mr-1"></i>Ảnh</button>
             </div>
-            <textarea id="mailRaw" oninput="updatePreview()" rows="10" class="w-full p-4 focus:outline-none text-slate-800 font-mono text-sm leading-relaxed" placeholder="Soạn nội dung..."></textarea>
+            <textarea id="mailRaw" oninput="updatePreview()" rows="8" class="w-full p-3 focus:outline-none text-slate-800 text-sm leading-relaxed" style="font-family:'Plus Jakarta Sans', sans-serif;" placeholder="Soạn nội dung tại đây..."></textarea>
           </div>
 
-          <div class="space-y-3 pt-2">
-            <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-              <div><p class="text-sm font-bold text-slate-800">Chân mail Hỗ trợ (Zalo/Mess)</p></div>
-              <label class="toggle-wrap"><input type="checkbox" id="togContact" checked onchange="updatePreview()"><span class="toggle-slider"></span></label>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-              <div><p class="text-sm font-bold text-slate-800">Nút Cổng Khách Hàng</p></div>
+          <div class="grid grid-cols-2 gap-3 mt-3">
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <span class="text-xs font-bold text-slate-700">Nút Cổng KH</span>
               <label class="toggle-wrap"><input type="checkbox" id="togPortal" checked onchange="updatePreview()"><span class="toggle-slider"></span></label>
             </div>
-          </div>
-
-          <button onclick="saveTemplate()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-xl transition shadow-md"><i class="fas fa-save mr-2"></i>Lưu thành Mẫu mới</button>
-        </div>
-      </div>
-
-      <div class="sticky top-20">
-        <p class="text-xs font-bold text-slate-400 uppercase text-center mb-3 tracking-widest"><i class="fas fa-mobile-alt mr-1"></i>Live Preview</p>
-        <div class="phone-shell">
-          <div class="phone-screen">
-            <div class="bg-white p-3 border-b border-slate-100 shadow-sm shrink-0">
-              <div class="text-xs font-black text-slate-800 truncate" id="previewSubj">Chưa có tiêu đề</div>
-              <div class="text-[10px] text-slate-400 mt-1">Từ: VPN Trinh Hg</div>
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <span class="text-xs font-bold text-slate-700">Chân Hỗ trợ</span>
+              <label class="toggle-wrap"><input type="checkbox" id="togContact" checked onchange="updatePreview()"><span class="toggle-slider"></span></label>
             </div>
-            <div class="p-3 flex-1 overflow-y-auto" id="previewPane"></div>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="flex justify-between items-center mb-2">
+            <h2 class="font-black text-slate-800 text-sm uppercase"><i class="fas fa-users mr-1.5 text-indigo-500"></i>Danh Sách Nhận</h2>
+            <div class="text-xs font-bold bg-indigo-100 text-indigo-700 px-2 py-1 rounded-lg"><span id="countTargets">0</span> KHÁCH</div>
+          </div>
+          <div class="flex gap-3 h-32">
+            <textarea id="rawTargets" class="flex-1 p-2 border border-slate-200 rounded-xl text-xs font-mono bg-slate-50 focus:border-indigo-500 outline-none resize-none" placeholder="Dán chuỗi email (a@gmail.com, b@...) HOẶC dán toàn bộ JSON đơn hàng để hệ thống tự lọc."></textarea>
+            <div class="flex flex-col gap-2 w-28 shrink-0">
+              <button onclick="parseTargets()" class="flex-1 bg-green-500 text-white font-bold rounded-xl text-xs hover:bg-green-600 transition shadow-sm"><i class="fas fa-plus block mb-1"></i>Thêm Khách</button>
+              <button onclick="clearTargets()" class="h-8 bg-red-50 text-red-500 font-bold rounded-xl text-xs hover:bg-red-500 hover:text-white transition"><i class="fas fa-trash"></i></button>
+            </div>
           </div>
         </div>
       </div>
+
+      <div class="lg:col-span-5 flex flex-col gap-5">
+        <div class="sticky top-16">
+          <div class="phone-shell relative">
+            <div class="phone-screen">
+              <div class="bg-white p-3 border-b border-slate-100 shadow-sm shrink-0">
+                <div class="text-[11px] font-black text-slate-800 truncate" id="previewSubj">Tiêu đề email...</div>
+                <div class="text-[9px] text-slate-400 mt-0.5">Từ: VPN Trinh Hg</div>
+              </div>
+              <div class="p-3 flex-1" id="previewPane"></div>
+            </div>
+          </div>
+          <button id="btnSendAll" onclick="executeSend()" class="mt-4 w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-base"><i class="fas fa-paper-plane mr-2"></i>BẮN MAIL HÀNG LOẠT</button>
+        </div>
+      </div>
+
     </div>
 
     <div id="tab-templates" class="hidden">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold text-slate-800">Quản lý Mẫu Email</h2>
-        <button onclick="loadTemplatesFromCloud()" class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-sm font-bold text-slate-600 hover:bg-slate-50 shadow-sm"><i class="fas fa-sync-alt mr-1"></i>Làm mới</button>
+        <h2 class="text-lg font-black text-slate-800 uppercase">Quản lý Mẫu Email</h2>
+        <button onclick="loadTemplatesFromCloud()" class="bg-white border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:bg-slate-50 shadow-sm"><i class="fas fa-sync-alt mr-1"></i>Làm mới</button>
       </div>
-      <div id="gridTemplates" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </div>
-
-    <div id="tab-targets" class="hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-1 space-y-4">
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <h3 class="font-bold text-slate-800 mb-2">Thêm Khách Hàng</h3>
-            <p class="text-xs text-slate-500 mb-3">Dán chuỗi email cách bằng dấu phẩy, HOẶC dán toàn bộ JSON để lọc đơn còn HSD. Nó sẽ <b>Cộng dồn</b> vào danh sách.</p>
-            <textarea id="rawTargets" rows="8" class="w-full p-3 border border-slate-200 rounded-xl text-xs font-mono bg-slate-50 focus:border-indigo-500 outline-none mb-3" placeholder="a@gmail.com, b@gmail.com&#10;Hoặc dán JSON..."></textarea>
-            <div class="flex gap-2">
-              <button onclick="parseTargets()" class="flex-1 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 font-bold py-2.5 rounded-xl transition text-sm"><i class="fas fa-plus mr-1"></i>Thêm Khách</button>
-              <button onclick="clearTargets()" class="bg-red-50 text-red-500 hover:bg-red-500 hover:text-white font-bold py-2.5 px-3 rounded-xl transition text-sm"><i class="fas fa-trash"></i></button>
-            </div>
-          </div>
-          
-          <div class="bg-indigo-600 p-4 rounded-2xl shadow-md text-white text-center">
-            <h3 class="font-extrabold text-xl mb-1">Chuẩn Bị Gửi</h3>
-            <p class="text-indigo-200 text-xs mb-4">Mẫu hiện tại: <span id="activeTplName" class="font-bold text-white">Chưa lưu</span></p>
-            <button id="btnSendAll" onclick="executeSend()" class="w-full bg-white text-indigo-600 font-black py-3 rounded-xl transition shadow hover:scale-[1.02]"><i class="fas fa-paper-plane mr-2"></i>BẮN MAIL HÀNG LOẠT</button>
-          </div>
-        </div>
-
-        <div class="lg:col-span-2">
-          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col h-full">
-            <div class="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50">
-              <div class="font-bold text-slate-700 flex items-center">
-                Danh sách chờ gửi <span id="countTargets" class="ml-2 bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-black">0</span>
-              </div>
-              <div class="flex gap-3">
-                <button onclick="tickAll(true)" class="text-xs font-bold text-indigo-600">Chọn hết</button>
-                <button onclick="tickAll(false)" class="text-xs font-bold text-slate-500">Bỏ chọn</button>
-              </div>
-            </div>
-            <div id="targetList" class="divide-y divide-slate-100 overflow-y-auto max-h-[600px] bg-white p-2">
-              <div class="p-8 text-center text-slate-400 font-bold text-sm">Chưa có dữ liệu. Hãy nhập và thêm ở cột bên trái.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="gridTemplates" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"></div>
     </div>
   </main>
 
   <script>
     // ==========================================
-    // 1. CẤU HÌNH (THAY LINK CỦA BẠN VÀO ĐÂY)
+    // 1. CẤU HÌNH API
     // ==========================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqS2sJ5aMcdX9gWv4R_X9E/exec"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJB8uFSf7FSTIatfvQuZANemM91uTTqvSQNYw7EFNBJSukBsrXap-H6Ul1rQcExXt_/exec"; // THAY BẰNG LINK GAS MỚI
     const PORTAL_URL = "https://vpntrinhhg.pages.dev";
-    const RAW_GITHUB_URL = "https://raw.githubusercontent.com/trinhhg/quanlymail/main/templates.json"; 
+    const RAW_TPL_URL = "https://raw.githubusercontent.com/trinhhg/quanlymail/main/templates.json"; 
+    const RAW_TGT_URL = "https://raw.githubusercontent.com/trinhhg/quanlymail/main/targets.json"; 
     
     let templatesDb = [];
-    
-    // Đọc danh sách mục tiêu từ LocalStorage (Đảm bảo F5 không mất)
-    let parsedTargets = JSON.parse(localStorage.getItem('promoTargets')) || [];
+    let parsedTargets = [];
 
-    // Tự động kéo Mẫu và Danh sách đã lưu khi load trang
     window.onload = () => {
-      loadTemplatesFromCloud();
-      renderTargets();
+      loadDataFromCloud();
       updatePreview();
     };
 
     // ==========================================
-    // 2. TẢI DỮ LIỆU TỪ GITHUB
+    // 2. GIAO TIẾP GITHUB & DATA
     // ==========================================
-    async function loadTemplatesFromCloud() {
+    async function loadDataFromCloud() {
+      // Tải mẫu
       try {
-        const res = await fetch(`${RAW_GITHUB_URL}?t=${Date.now()}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data)) {
-            templatesDb = data;
-            renderTemplates();
-            toast("Đã đồng bộ mẫu từ Cloud!", "ok");
-          }
-        }
-      } catch (e) {
-        toast("Lỗi tải mẫu: Chưa có file hoặc mạng lỗi.", "err");
-      }
+        const res1 = await fetch(`${RAW_TPL_URL}?t=${Date.now()}`);
+        if (res1.ok) { templatesDb = await res1.json(); renderTemplates(); }
+      } catch (e) { console.log("Lỗi tải mẫu"); }
+
+      // Tải danh sách khách
+      try {
+        const res2 = await fetch(`${RAW_TGT_URL}?t=${Date.now()}`);
+        if (res2.ok) { parsedTargets = await res2.json(); updateTargetCount(); }
+      } catch (e) { console.log("Lỗi tải khách"); }
+    }
+
+    async function saveTargetsToCloud() {
+      toast("Đang đồng bộ Danh sách Khách lên hệ thống...");
+      updateTargetCount();
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: "commitData", path: "targets.json", content: JSON.stringify(parsedTargets), message: "Sync Targets" })
+      });
+      toast("Đồng bộ Khách hoàn tất!");
     }
 
     // ==========================================
-    // 3. XỬ LÝ HTML & HIỂN THỊ
+    // 3. UI & XỬ LÝ HTML (FIXED REGEX & LAYOUT)
     // ==========================================
     function toast(msg, type="ok") {
       const box = document.getElementById("toastBox"); const el = document.createElement("div");
@@ -217,7 +204,7 @@
     }
 
     function goTab(tab) {
-      ['compose', 'templates', 'targets'].forEach(t => {
+      ['workspace', 'templates'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tab);
         document.getElementById(`btn-${t}`).classList.toggle('active', t === tab);
       });
@@ -231,43 +218,29 @@
     }
 
     function parseContent(raw, email="khach@email.com", maDon="DH-XXXXXXXX", nickname="Bạn") {
-      // 1. Quét xử lý in đậm, in nghiêng, và biến
       let html = raw.replace(/\[B\](.*?)\[\/B\]/gs, "<b>$1</b>")
                     .replace(/\[I\](.*?)\[\/I\]/gs, "<i>$1</i>")
                     .replace(/\{Email\}/g, `<b style="color:#0f172a;">${email}</b>`)
                     .replace(/\{MaDon\}/g, `<b style="color:#4f46e5;">${maDon}</b>`)
-                    .replace(/\{Nickname\}/g, `<b>${nickname}</b>`);
+                    .replace(/\{Tên\}/g, `<b>${nickname}</b>`); // Đổi thành {Tên} cho gọn
       
+      // Xử lý thẻ IMG đóng mở
+      html = html.replace(/\[IMG\](.*?)\[\/IMG\]/gi, '<img src="$1" style="max-width:100%;height:auto;border-radius:8px;margin:15px auto;display:block;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);" />');
+      
+      // Xử lý thẻ BTN đóng mở [BTN]Tên Nút|Link[/BTN]
+      html = html.replace(/\[BTN\](.*?)\|(.*?)\[\/BTN\]/gi, '<div style="text-align:center;margin:20px 0;"><a href="$2" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;padding:12px 24px;border-radius:8px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 4px 10px rgba(79,70,229,0.3)">$1</a></div>');
+
       let out = "";
-      let lines = html.split('\n');
-      
-      // 2. Lặp qua từng dòng để xử lý thẻ Ảnh và Nút chuẩn xác hơn
-      lines.forEach(line => {
+      html.split('\n').forEach(line => {
         let trimLine = line.trim();
         if(!trimLine) return;
-
-        // Check LINE
-        if(trimLine === "[LINE]") {
-          out += `<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;" />`;
-          return;
+        if(trimLine === "[LINE]") { out += `<hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;" />`; return; }
+        if(trimLine.includes("<img") || trimLine.includes("<div style=\"text-align:center;margin:20px 0;\"><a")) {
+          out += trimLine; // Bỏ qua wrap <p> cho nút và ảnh
+        } else {
+          out += `<p style="margin:0 0 10px 0;color:#334155;font-size:14px;line-height:1.6;">${trimLine}</p>`;
         }
-        // Check IMG bằng Regex để không bị lỗi nếu có khoảng trắng
-        let imgMatch = trimLine.match(/\[IMG\]\s*(https?:\/\/[^\s<]+)/i);
-        if (imgMatch) {
-          out += `<img src="${imgMatch[1]}" style="max-width:100%;height:auto;border-radius:8px;margin:15px auto;display:block;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);" />`;
-          return;
-        }
-        // Check BTN bằng Regex
-        let btnMatch = trimLine.match(/\[BTN\]\s*(.*?)\|\s*(https?:\/\/[^\s<]+)/i);
-        if (btnMatch) {
-          out += `<div style="text-align:center;margin:20px 0;"><a href="${btnMatch[2]}" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#6366f1);color:white;padding:12px 24px;border-radius:8px;font-weight:900;text-decoration:none;font-size:14px;box-shadow:0 4px 10px rgba(79,70,229,0.3)">${btnMatch[1]}</a></div>`;
-          return;
-        }
-        
-        // Đoạn văn bình thường
-        out += `<p style="margin:0 0 10px 0;color:#334155;font-size:14px;line-height:1.6;">${trimLine}</p>`;
       });
-
       return out;
     }
 
@@ -280,7 +253,6 @@
           <p style="font-size:12px;color:#64748b;margin-top:12px;line-height:1.5;">👉 Dùng <b>Mã Đơn Hàng</b> hoặc <b>Email</b> để tra cứu và lấy link VPN.</p>
         </div>` : "";
 
-      // FIX: Bỏ in hoa text, đưa block Contact xuống dưới cùng
       let contactBlock = useContact ? `
         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-top:10px;text-align:center;">
           <p style="margin:0 0 12px 0;color:#475569;font-size:13px;font-weight:bold;">Cần hỗ trợ? Đội ngũ của chúng tôi sẵn sàng 24/24</p>
@@ -290,11 +262,10 @@
           </div>
         </div>` : "";
 
-      // FIX: Chữ Header không bị rớt dòng (chỉnh font-size và bỏ letter-spacing thừa)
       return `
         <div style="font-family:sans-serif;width:100%;max-width:500px;margin:auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;box-sizing:border-box;">
-          <div style="background:${colorHex};padding:20px 15px;text-align:center;">
-            <h2 style="color:white;margin:0;font-size:18px;text-transform:uppercase;font-weight:900;line-height:1.4;">${headerStr}</h2>
+          <div style="background:${colorHex};padding:20px 10px;text-align:center;">
+            <p class="mail-header-text">${headerStr}</p>
           </div>
           <div style="padding:24px 20px;box-sizing:border-box;">
             ${bodyHtml}
@@ -305,7 +276,7 @@
     }
 
     function updatePreview() {
-      const subj = document.getElementById("mailSubj").value || "Khuyến mãi...";
+      const subj = document.getElementById("mailSubj").value || "Tiêu đề...";
       const head = document.getElementById("mailHead").value || "THÔNG BÁO";
       const color = document.querySelector('input[name="colorTheme"]:checked').value;
       const raw = document.getElementById("mailRaw").value;
@@ -314,11 +285,10 @@
 
       document.getElementById("previewSubj").textContent = subj;
       document.getElementById("previewPane").innerHTML = buildFinalHtml(subj, head, color, raw, useContact, usePortal);
-      document.getElementById("activeTplName").textContent = subj ? (subj.substring(0, 20) + "...") : "Chưa lưu";
     }
 
     // ==========================================
-    // 4. MẪU LƯU (TEMPLATES)
+    // 4. MẪU LƯU
     // ==========================================
     async function saveTemplate() {
       const tpl = {
@@ -328,39 +298,37 @@
         color: document.querySelector('input[name="colorTheme"]:checked').value,
         raw: document.getElementById("mailRaw").value,
         useContact: document.getElementById("togContact").checked,
-        usePortal: document.getElementById("togPortal").checked,
-        date: new Date().toLocaleDateString('vi-VN')
+        usePortal: document.getElementById("togPortal").checked
       };
       if(!tpl.subj || !tpl.raw) return toast("Nhập đủ Tiêu đề và Nội dung!", "err");
       
       templatesDb.unshift(tpl);
-      renderTemplates();
-      toast("Đang đồng bộ Mẫu lên Cloud...");
-      
+      toast("Đang lưu Mẫu lên hệ thống...");
       fetch(SCRIPT_URL, {
         method: 'POST',
-        // Gửi body JSON thuần không dùng no-cors để đảm bảo UTF-8 an toàn
-        body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb, null, 2), message: "Update templates" })
-      }).then(() => toast("Lưu Cloud thành công!"));
+        body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb, null, 2), message: "Save Template" })
+      }).then(() => { toast("Lưu thành công!"); renderTemplates(); });
     }
 
     function renderTemplates() {
       const grid = document.getElementById("gridTemplates");
       if(!templatesDb.length) { grid.innerHTML = `<p class="col-span-full text-center py-10 text-slate-400 font-bold">Chưa có mẫu nào.</p>`; return; }
       
-      grid.innerHTML = templatesDb.map((t, i) => `
-        <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm flex flex-col hover:border-indigo-300 transition">
-          <div class="h-3" style="background:${t.color}"></div>
-          <div class="p-4 flex-1">
-            <h3 class="font-extrabold text-slate-800 text-sm truncate mb-1">${t.subj}</h3>
-            <p class="text-xs font-mono text-slate-400 line-clamp-2 mb-3">${t.raw}</p>
+      grid.innerHTML = templatesDb.map((t, i) => {
+        // Render Mini HTML preview
+        let miniHtml = buildFinalHtml(t.subj, t.head, t.color, t.raw, t.useContact, t.usePortal);
+        return `
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col hover:border-indigo-400 transition overflow-hidden">
+          <div class="mini-preview-wrap"><div class="mini-preview-scale pointer-events-none">${miniHtml}</div></div>
+          <div class="p-3">
+            <h3 class="font-bold text-slate-800 text-sm truncate mb-2">${t.subj}</h3>
             <div class="flex gap-2">
               <button onclick="useTemplate(${i})" class="flex-1 bg-indigo-50 text-indigo-700 hover:bg-indigo-600 hover:text-white text-xs font-bold py-2 rounded-lg transition">Sử dụng</button>
               <button onclick="delTemplate(${i})" class="bg-red-50 text-red-500 hover:bg-red-500 hover:text-white px-3 rounded-lg transition"><i class="fas fa-trash"></i></button>
             </div>
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     function useTemplate(i) {
@@ -371,32 +339,32 @@
       document.getElementById("togContact").checked = t.useContact;
       document.getElementById("togPortal").checked = t.usePortal;
       document.querySelectorAll('input[name="colorTheme"]').forEach(r => { if(r.value === t.color) r.checked = true; });
-      updatePreview(); goTab('compose'); toast("Đã nạp mẫu!");
+      updatePreview(); goTab('workspace'); toast("Đã nạp mẫu!");
     }
 
     function delTemplate(i) {
-      templatesDb.splice(i, 1); renderTemplates(); toast("Đang xóa Mẫu trên Cloud...");
-      fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb, null, 2), message: "Delete template" }) });
+      templatesDb.splice(i, 1); renderTemplates(); toast("Đang xóa...");
+      fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: "commitData", path: "templates.json", content: JSON.stringify(templatesDb, null, 2), message: "Delete Template" }) });
     }
 
     // ==========================================
-    // 5. LƯU DANH SÁCH & BẮN MAIL
+    // 5. NẠP KHÁCH HÀNG & GỬI
     // ==========================================
     function parseDate(dateStr) {
-      if(!dateStr) return null;
-      const parts = dateStr.split('/');
-      if(parts.length !== 3) return null;
-      return new Date(parts[2], parts[1]-1, parts[0]);
+      if(!dateStr) return null; const p = dateStr.split('/');
+      if(p.length !== 3) return null; return new Date(p[2], p[1]-1, p[0]);
     }
 
-    function parseTargets() {
+    function updateTargetCount() {
+      document.getElementById("countTargets").textContent = parsedTargets.length;
+    }
+
+    async function parseTargets() {
       const raw = document.getElementById("rawTargets").value.trim();
       if(!raw) return toast("Ô dữ liệu trống!", "err");
       
       const today = new Date(); today.setHours(0,0,0,0);
       let countAdded = 0;
-
-      // Check xem email đã có trong danh sách chưa
       const isExist = (email) => parsedTargets.some(t => t.email === email);
 
       try {
@@ -412,66 +380,31 @@
               }
             }
           });
-          toast(`Đã thêm ${countAdded} đơn Active mới!`);
         }
       } catch (e) {
-        // Fallback: Xử lý dạng phẩy
         const emails = raw.split(/[\n,]+/).map(e => e.trim()).filter(e => e.includes('@'));
         emails.forEach(e => {
-          if(!isExist(e)) {
-            parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn" });
-            countAdded++;
-          }
+          if(!isExist(e)) { parsedTargets.push({ email: e, id: "Khách lẻ", nickname: "Bạn" }); countAdded++; }
         });
-        toast(`Đã thêm ${countAdded} email mới thủ công!`);
       }
       
-      document.getElementById("rawTargets").value = "";
-      saveTargetsToLocal();
-      renderTargets();
+      if(countAdded > 0) {
+        document.getElementById("rawTargets").value = "";
+        saveTargetsToCloud(); // Gọi hàm đồng bộ lên Github
+      } else {
+        toast("Không tìm thấy khách mới hợp lệ!", "warn");
+      }
     }
 
-    // Lưu mảng vào LocalStorage để F5 không mất
-    function saveTargetsToLocal() {
-      localStorage.setItem('promoTargets', JSON.stringify(parsedTargets));
-    }
-    
-    // Nút Xóa trắng danh sách
-    function clearTargets() {
-      if(confirm("Bạn có chắc chắn muốn xóa sạch danh sách hiện tại?")) {
+    async function clearTargets() {
+      if(confirm("Xóa sạch danh sách chờ gửi?")) {
         parsedTargets = [];
-        saveTargetsToLocal();
-        renderTargets();
-        toast("Đã dọn sạch danh sách!");
+        saveTargetsToCloud();
       }
-    }
-
-    function renderTargets() {
-      const list = document.getElementById("targetList");
-      document.getElementById("countTargets").textContent = parsedTargets.length;
-      if(!parsedTargets.length) { list.innerHTML = `<div class="p-8 text-center text-slate-400 font-bold text-sm">Chưa có dữ liệu. Hãy nhập và thêm ở cột bên trái.</div>`; return; }
-      
-      list.innerHTML = parsedTargets.map((t, i) => `
-        <label class="flex items-center gap-3 p-3 hover:bg-slate-50 cursor-pointer transition border-b border-slate-50">
-          <input type="checkbox" value="${i}" class="cb-target accent-indigo-600 w-4 h-4" checked>
-          <div class="flex-1 min-w-0">
-            <div class="font-bold text-slate-800 text-sm truncate">${t.email}</div>
-            <div class="text-[10px] text-slate-500 flex gap-2 mt-0.5">
-              <span class="font-mono text-indigo-500">${t.id}</span>
-              ${t.nickname && t.nickname !== 'Bạn' ? `<span class="bg-slate-100 px-1.5 rounded text-slate-400">${t.nickname}</span>` : ''}
-            </div>
-          </div>
-        </label>
-      `).join('');
-    }
-
-    function tickAll(state) {
-      document.querySelectorAll(".cb-target").forEach(cb => cb.checked = state);
     }
 
     async function executeSend() {
-      const selectedIndexes = Array.from(document.querySelectorAll(".cb-target:checked")).map(cb => parseInt(cb.value));
-      if(!selectedIndexes.length) return toast("Chưa chọn khách nào!", "err");
+      if(!parsedTargets.length) return toast("Chưa có khách hàng nào!", "err");
       
       const subj = document.getElementById("mailSubj").value;
       const head = document.getElementById("mailHead").value;
@@ -482,33 +415,28 @@
 
       if(!subj || !raw) return toast("Chưa soạn xong nội dung mail!", "err");
       
-      // FIX: Bỏ popup hỏi han, cứ thế bắn
       const btn = document.getElementById("btnSendAll");
       btn.disabled = true;
       let successCount = 0;
+      let total = parsedTargets.length;
 
-      for (let i = 0; i < selectedIndexes.length; i++) {
-        const target = parsedTargets[selectedIndexes[i]];
-        btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi (${i+1}/${selectedIndexes.length})...`;
+      for (let i = 0; i < total; i++) {
+        const target = parsedTargets[i];
+        btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>Đang gửi (${i+1}/${total})...`;
         
         const htmlBody = buildFinalHtml(subj, head, color, raw, useContact, usePortal, target.email, target.id, target.nickname);
         
         try {
           await fetch(SCRIPT_URL, {
             method: 'POST',
-            body: JSON.stringify({
-              action: "sendMail",
-              to: target.email,
-              subject: subj,
-              html: htmlBody
-            })
+            body: JSON.stringify({ action: "sendMail", to: target.email, subject: subj, html: htmlBody })
           });
           successCount++;
           await new Promise(r => setTimeout(r, 400));
         } catch (err) { console.error("Lỗi gửi:", target.email); }
       }
 
-      toast(`Hoàn tất! Đã gửi ${successCount}/${selectedIndexes.length} email.`);
+      toast(`Hoàn tất! Đã gửi ${successCount}/${total} email.`);
       btn.innerHTML = `<i class="fas fa-paper-plane mr-2"></i>BẮN MAIL HÀNG LOẠT`;
       btn.disabled = false;
     }
