@@ -1,5 +1,14 @@
 [
   {
+    "id": 1782305221749,
+    "subj": "VPNTrinhHg - Bị Mất Kết Nối VPN",
+    "head": "Mất Kết Nối VPN",
+    "color": "linear-gradient(135deg, #db2777, #f43f5e)",
+    "raw": "Xin chào mọi người!\n\nHiện tại có 1 số khách hàng gặp tình trạng mất kết nối VPN nhưng mà lỗi này không phải do bảo trì (nếu bảo trì chúng tôi sẽ thông báo) hay do lỗi VPN. \n\nĐể khắc phục tình trạng này bạn chỉ cần [B]Ấn cập nhật hoặc xóa đi thêm lại link VPN[/B] là thành công, kết nối VPN sẽ hoạt động trở lại.\n\nNếu đã thử ấn cập nhật và xóa đi thêm lại link VPN mà vẫn chưa kết nối được với VPN thì hãy liên hệ với admin ngay nhé! \n\nXin cảm ơn.",
+    "useContact": true,
+    "usePortal": true
+  },
+  {
     "id": 1782033386576,
     "subj": "gdfg",
     "head": "dgfdg",
