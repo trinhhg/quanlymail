@@ -1,5 +1,14 @@
 [
   {
+    "id": 1782317298398,
+    "subj": "Báo cáo dung lượng sử dụng - Đơn hàng DH-7LLXF7I16C",
+    "head": "BÁO CÁO DUNG LƯỢNG",
+    "color": "linear-gradient(135deg, #2563eb, #3b82f6)",
+    "raw": "Báo cáo dung lượng sử dụng - Đơn hàng DH-7LLXF7I16C\n\nXin chào,\nGói VPN của bạn (Mã đơn: DH-7LLXF7I16C) đã sử dụng: \n\n\n[BTN]320,4 GB|link_vao_day[/BTN]\n\nNếu cần hỗ trợ thêm, đội ngũ của chúng tôi luôn sẵn sàng 24/24 qua Zalo hoặc Messenger.\nTrân trọng.\n\n[Đây là tin nhắn tự động từ hệ thống do cơ chế bắn mail báo cáo dung lượng gặp lỗi trong đợt bảo trì, chúng tôi sẽ cố gắng sửa trong thời gian sớm nhất]",
+    "useContact": true,
+    "usePortal": true
+  },
+  {
     "id": 1782305221749,
     "subj": "VPNTrinhHg - Bị Mất Kết Nối VPN",
     "head": "Mất Kết Nối VPN",
